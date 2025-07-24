@@ -576,3 +576,8 @@ FodyWeavers.xsd
 
 .DS_Store
 .idea
+
+# Executables
+sw_battle_test
+unit-tests
+unit-tests*.cmake
