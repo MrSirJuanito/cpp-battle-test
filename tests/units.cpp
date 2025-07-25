@@ -4,6 +4,8 @@
 #include <Features/SwordsManUnit.hpp>
 #include <Features/HunterUnit.hpp>
 
+using namespace sw;
+
 TEST(UnitSpawnTest, SpawnSwordsMan) {
     //Create a map
     GameMap gameMap(10, 10);
