@@ -3,14 +3,15 @@
 #include <Core/IUnit.hpp>
 
 namespace sw {
-	class BaseUnit : public IUnit {
+	class BaseUnit : public virtual IUnit {
 	protected:
 		uint32_t id;
 		uint32_t x;
 		uint32_t y;
 	
 	public:
-		BaseUnit(uint32_t _x, uint32_t _y) : 
+		BaseUnit(uint32_t _id, uint32_t _x, uint32_t _y) : 
+			id{_id},
 			x{_x},
 			y{_y} 
 		{}

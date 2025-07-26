@@ -7,13 +7,15 @@
 using namespace sw;
 
 TEST(UnitMoveTest, UnitMoveBegin) {
-    GameWorld world(10, 10);
+    GameWorld world;
+    world.createMap(10, 10);
     
+    uint32_t id = 0;
     uint32_t x0 = 1;
     uint32_t y0 = 2;
-    world.addUnit(std::shared_ptr<IUnit>(new HunterUnit(world, x0, y0)));
+    world.addUnit(std::shared_ptr<IUnit>(new HunterUnit(world, id, x0, y0)));
 
-    std::shared_ptr<IUnit>& getUnit = world.getUnit(0);
+    std::shared_ptr<IUnit>& getUnit = world.getUnit(id);
 
     auto m = dynamic_cast<MarchUnit*>(getUnit.get());
     uint32_t targetX = 10;
@@ -25,19 +27,21 @@ TEST(UnitMoveTest, UnitMoveBegin) {
     std::string output = testing::internal::GetCapturedStdout();
 
     std::stringstream expected;
-    expected << "[" << tick << "] MARCH_STARTED unitId=0 x=" << x0 << " y=" << y0 <<
+    expected << "[" << tick << "] MARCH_STARTED unitId=" << id << " x=" << x0 << " y=" << y0 <<
         " targetX=" << targetX << " targetY=" << targetY << " \n";
     EXPECT_EQ(output, expected.str());
 }
 
 TEST(UnitMoveTest, UnitMoveBeginEnd) {
-    GameWorld world(10, 10);
+    GameWorld world;
+    world.createMap(10, 10);
     
+    uint32_t id = 0;
     uint32_t x0 = 1;
     uint32_t y0 = 2;
-    world.addUnit(std::shared_ptr<IUnit>(new HunterUnit(world, x0, y0)));
+    world.addUnit(std::shared_ptr<IUnit>(new HunterUnit(world, id, x0, y0)));
 
-    std::shared_ptr<IUnit>& getUnit = world.getUnit(0);
+    std::shared_ptr<IUnit>& getUnit = world.getUnit(id);
 
     auto m = dynamic_cast<MarchUnit*>(getUnit.get());
     uint32_t targetX = 2;
@@ -50,20 +54,22 @@ TEST(UnitMoveTest, UnitMoveBeginEnd) {
     std::string output = testing::internal::GetCapturedStdout();  // Stop + retrieve
 
     std::stringstream expected;
-    expected << "[" << tick << "] UNIT_MOVED unitId=0 x=" << targetX << " y=" << targetY << " \n" <<
-        "[" << tick << "] MARCH_ENDED unitId=0 x=" << targetX << " y=" << targetY << " \n";
+    expected << "[" << tick << "] UNIT_MOVED unitId=" << id << " x=" << targetX << " y=" << targetY << " \n" <<
+        "[" << tick << "] MARCH_ENDED unitId=" << id << " x=" << targetX << " y=" << targetY << " \n";
     std::string expectedStr = expected.str();
     EXPECT_EQ(output, expected.str());
 }
 
 TEST(UnitMoveTest, UnitMoveInProgress) {
-    GameWorld world(10, 10);
+    GameWorld world;
+    world.createMap(10, 10);
     
+    uint32_t id = 0;
     uint32_t x0 = 1;
     uint32_t y0 = 2;
-    world.addUnit(std::shared_ptr<IUnit>(new HunterUnit(world, x0, y0)));
+    world.addUnit(std::shared_ptr<IUnit>(new HunterUnit(world, id, x0, y0)));
 
-    std::shared_ptr<IUnit>& getUnit = world.getUnit(0);
+    std::shared_ptr<IUnit>& getUnit = world.getUnit(id);
 
     auto m = dynamic_cast<MarchUnit*>(getUnit.get());
     uint32_t targetX = 10;
@@ -77,7 +83,7 @@ TEST(UnitMoveTest, UnitMoveInProgress) {
     std::string output = testing::internal::GetCapturedStdout();
 
     std::stringstream expected;
-    expected << "[" << tick << "] UNIT_MOVED unitId=0 x=2 y=3 \n";
+    expected << "[" << tick << "] UNIT_MOVED unitId=" << id << " x=2 y=3 \n";
     std::string expectedStr = expected.str();
     EXPECT_EQ(output, expected.str());
 }

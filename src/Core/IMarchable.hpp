@@ -13,8 +13,7 @@ namespace sw {
     };
     */
 
-    struct IMarchable : public IUnit {
-        virtual ~IMarchable() = default;
+    struct IMarchable : public virtual IUnit {
         virtual void marchTo(uint32_t _targetX, uint32_t _targetY) = 0;
         virtual void doMarch() = 0;
         virtual uint32_t getTargetX() const = 0;

@@ -7,6 +7,7 @@
 #include <Core/IGameWorld.hpp>
 #include <Core/BaseUnit.hpp>
 #include <IO/System/EventLog.hpp>
+#include <IO/Events/MapCreated.hpp>
 #include <IO/Events/UnitSpawned.hpp>
 #include <IO/Events/UnitMoved.hpp>
 #include <IO/Events/MarchStarted.hpp>
@@ -17,20 +18,23 @@ namespace sw {
 	class GameWorld : public IGameWorld {
 	private:
 		EventLog eventLog;
-		uint32_t width;
-		uint32_t height;
 		std::unordered_map<uint32_t, std::shared_ptr<IUnit>> units;
-		uint64_t tick;
+
+		uint32_t width = 0;
+		uint32_t height = 0;
+		uint64_t tick = 0;
 	
 	public:
-		uint32_t getNextId() { return units.size(); }
+		uint32_t getWidth() const override { return width; };
+        uint32_t getHeight() const override { return height; };
+		uint32_t getNextId() const override { return units.size(); }
 		EventLog& getEventLog() override { return eventLog; }
 		uint64_t getTick() const override { return tick; }
 
-		GameWorld(uint32_t _width, uint32_t _height) : 
-			width{_width},
-			height{_height},
-			tick{0} {
+		void createMap(uint32_t _width, uint32_t _height) {
+			width = _width;
+			height = _height;
+			eventLog.log(tick, io::MapCreated{width, height});
 		}
 
 		void addUnit(std::shared_ptr<IUnit> unit) {

@@ -25,8 +25,11 @@ FetchContent_MakeAvailable(googletest)
 enable_testing()
 
 add_executable(unit-tests
+    src/IO/System/CommandParser.cpp
+    
     tests/units.cpp
     tests/moveable.cpp
+    tests/commands.cpp
 )
 
 target_include_directories(unit-tests PUBLIC src/)
