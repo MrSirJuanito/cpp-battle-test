@@ -26,6 +26,7 @@ enable_testing()
 
 add_executable(unit-tests
     tests/units.cpp
+    tests/moveable.cpp
 )
 
 target_include_directories(unit-tests PUBLIC src/)

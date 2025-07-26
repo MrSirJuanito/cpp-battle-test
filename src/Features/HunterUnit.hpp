@@ -1,11 +1,13 @@
 #pragma once
 
-#include <Core/BaseUnit.hpp>
+#include <Features/MarchUnit.hpp>
 
 namespace sw {
-	class HunterUnit : public BaseUnit {
+	class HunterUnit : public MarchUnit {
 	public:
-		HunterUnit(uint32_t x, uint32_t y) : BaseUnit(x, y) {}
+		HunterUnit(IGameWorld& _world, uint32_t _x, uint32_t _y) : 
+			MarchUnit{_world, _x, _y, 1}
+		{}
 	
 		std::string getTypeName() const override { return "Hunter"; }
 	};

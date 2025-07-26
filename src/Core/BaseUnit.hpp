@@ -1,41 +1,24 @@
 #pragma once
 
-#include <cstdint>
-#include <string>
-#include <iostream>
-#include <IO/System/EventLog.hpp>
+#include <Core/IUnit.hpp>
 
 namespace sw {
-	class BaseUnit {
-		friend class GameMap;
-	private:
+	class BaseUnit : public IUnit {
+	protected:
 		uint32_t id;
 		uint32_t x;
 		uint32_t y;
 	
 	public:
-		BaseUnit() {
-			std::cout << "B " << std::endl;
-		}
+		BaseUnit(uint32_t _x, uint32_t _y) : 
+			x{_x},
+			y{_y} 
+		{}
 	
-		BaseUnit(uint32_t x, uint32_t y) :
-			x{x}, y{y} {
-			std::cout << "Bxy " << std::endl;
-		}
-	
-		uint32_t getId() const {
-			return id;
-		}
-	
-		uint32_t getX() const { return x; }
-		uint32_t getY() const { return y; }
-	
-		virtual ~BaseUnit() = default;
-		virtual std::string getTypeName() const = 0;
-	
-	protected:
-		void setId(uint32_t id) {
-			id = id;
-		}
+		uint32_t getId() const override { return id; }
+		uint32_t getX() const override { return x; }
+		uint32_t getY() const override { return y; }
+
+		void setId(uint32_t _id) { id = _id; }
 	};
 }
