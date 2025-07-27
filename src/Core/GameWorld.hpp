@@ -38,7 +38,7 @@ namespace sw {
 		}
 
 		void addUnit(std::shared_ptr<IUnit> unit) {
-			uint32_t position = unit->getY() * width + unit->getX();
+			uint32_t position = positionAtMap(unit->getX(), unit->getY());
 			if (units.count(position) > 0)
 				throw new std::runtime_error("Unit at this position already exists");
 			
@@ -52,7 +52,17 @@ namespace sw {
 			units[position] = std::move(unit);
 		}
 	
-		std::shared_ptr<IUnit>& getUnitById(uint32_t id) {
+		bool existUnitAtPos(uint32_t _x, uint32_t _y) override {
+			uint32_t position = positionAtMap(_x, _y);
+			return units.count(position) > 0;
+		}
+
+        std::shared_ptr<IUnit>& getUnitAtPos(uint32_t _x, uint32_t _y) override {
+			uint32_t position = positionAtMap(_x, _y);
+			return units.at(position);
+		}
+
+		std::shared_ptr<IUnit>& getUnitById(uint32_t id) override {
             for (auto& [k, v] : units) {
                 if (v->getId() == id)
                     return v;
@@ -76,5 +86,10 @@ namespace sw {
             }
 			return tick;
         }
+
+	private:
+		uint32_t positionAtMap(uint32_t _x, uint32_t _y) {
+			return _y * width + _x;
+		}
 	};
 }

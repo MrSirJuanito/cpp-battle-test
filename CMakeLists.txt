@@ -27,6 +27,7 @@ enable_testing()
 add_executable(unit-tests
     src/IO/System/CommandParser.cpp
     
+    tests/attackableclose.cpp
     tests/units.cpp
     tests/moveable.cpp
     tests/commands.cpp
