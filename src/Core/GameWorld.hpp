@@ -5,6 +5,7 @@
 #include <unordered_map>
 #include <Core/IGameWorld.hpp>
 #include <Core/IUnit.hpp>
+#include <Core/IAttackableClose.hpp>
 #include <Core/IMarchable.hpp>
 #include <IO/System/EventLog.hpp>
 #include <IO/Events/MapCreated.hpp>
@@ -63,9 +64,15 @@ namespace sw {
         uint64_t nextTick() {
 			++tick;
             for (auto& [k, v] : units) {
-                if (auto m = dynamic_cast<IMarchable*>(v.get())) {
-                    m->doMarch();
-                }
+				bool attacked = false;
+				if (auto a = dynamic_cast<IAttackableClose*>(v.get())) {
+					attacked = a->doAttackClose();
+				}
+				// If a unit is not attackable or the attack didn't succeed - march
+                if (!attacked) 
+					if (auto m = dynamic_cast<IMarchable*>(v.get())) {
+                    	m->doMarch();
+					}
             }
 			return tick;
         }

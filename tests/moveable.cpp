@@ -13,11 +13,11 @@ TEST(UnitMoveTest, UnitMoveBegin) {
     uint32_t id = 0;
     uint32_t x0 = 1;
     uint32_t y0 = 2;
-    world.addUnit(std::shared_ptr<IUnit>(new HunterUnit(world, id, x0, y0)));
+    world.addUnit(std::shared_ptr<IUnit>(new HunterUnit(world, id, x0, y0, 1)));
 
     std::shared_ptr<IUnit>& getUnit = world.getUnitById(id);
 
-    auto m = dynamic_cast<MarchUnit*>(getUnit.get());
+    auto m = dynamic_cast<IMarchable*>(getUnit.get());
     uint32_t targetX = 10;
     uint32_t targetY = 10;
     uint64_t tick = world.getTick();
@@ -39,11 +39,11 @@ TEST(UnitMoveTest, UnitMoveBeginEnd) {
     uint32_t id = 0;
     uint32_t x0 = 1;
     uint32_t y0 = 2;
-    world.addUnit(std::shared_ptr<IUnit>(new HunterUnit(world, id, x0, y0)));
+    world.addUnit(std::shared_ptr<IUnit>(new HunterUnit(world, id, x0, y0, 1)));
 
     std::shared_ptr<IUnit>& getUnit = world.getUnitById(id);
 
-    auto m = dynamic_cast<MarchUnit*>(getUnit.get());
+    auto m = dynamic_cast<IMarchable*>(getUnit.get());
     uint32_t targetX = 2;
     uint32_t targetY = 2;
     uint64_t tick = world.getTick();
@@ -67,11 +67,11 @@ TEST(UnitMoveTest, UnitMoveInProgress) {
     uint32_t id = 0;
     uint32_t x0 = 1;
     uint32_t y0 = 2;
-    world.addUnit(std::shared_ptr<IUnit>(new HunterUnit(world, id, x0, y0)));
+    world.addUnit(std::shared_ptr<IUnit>(new HunterUnit(world, id, x0, y0, 1)));
 
     std::shared_ptr<IUnit>& getUnit = world.getUnitById(id);
 
-    auto m = dynamic_cast<MarchUnit*>(getUnit.get());
+    auto m = dynamic_cast<IMarchable*>(getUnit.get());
     uint32_t targetX = 10;
     uint32_t targetY = 10;
     uint64_t tick = world.getTick();

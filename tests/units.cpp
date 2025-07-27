@@ -10,10 +10,50 @@ TEST(UnitSpawnTest, SpawnSwordsMan) {
     GameWorld world;
     world.createMap(10, 10);
     uint32_t id = 0;
-    world.addUnit(std::shared_ptr<IUnit>(new SwordsManUnit(world, 0, 1, 2)));
+    world.addUnit(std::shared_ptr<IUnit>(new SwordsManUnit(world, 0, 1, 2, 1)));
 
     std::shared_ptr<IUnit>& getUnit = world.getUnitById(id);
     EXPECT_TRUE(dynamic_cast<SwordsManUnit*>(getUnit.get()) != nullptr);
+}
+
+TEST(UnitSpawnTest, SwordsManMarchable) {
+    GameWorld world;
+    world.createMap(10, 10);
+    uint32_t id = 0;
+    world.addUnit(std::shared_ptr<IUnit>(new SwordsManUnit(world, 0, 1, 2, 1)));
+
+    std::shared_ptr<IUnit>& getUnit = world.getUnitById(id);
+    EXPECT_TRUE(dynamic_cast<IMarchable*>(getUnit.get()) != nullptr);
+}
+
+TEST(UnitSpawnTest, SwordsManAttackableClose) {
+    GameWorld world;
+    world.createMap(10, 10);
+    uint32_t id = 0;
+    world.addUnit(std::shared_ptr<IUnit>(new SwordsManUnit(world, 0, 1, 2, 1)));
+
+    std::shared_ptr<IUnit>& getUnit = world.getUnitById(id);
+    EXPECT_TRUE(dynamic_cast<IAttackableClose*>(getUnit.get()) != nullptr);
+}
+
+TEST(UnitSpawnTest, HunterMarchable) {
+    GameWorld world;
+    world.createMap(10, 10);
+    uint32_t id = 0;
+    world.addUnit(std::shared_ptr<IUnit>(new HunterUnit(world, 0, 1, 2, 1)));
+
+    std::shared_ptr<IUnit>& getUnit = world.getUnitById(id);
+    EXPECT_TRUE(dynamic_cast<IMarchable*>(getUnit.get()) != nullptr);
+}
+
+TEST(UnitSpawnTest, HunterAttackableClose) {
+    GameWorld world;
+    world.createMap(10, 10);
+    uint32_t id = 0;
+    world.addUnit(std::shared_ptr<IUnit>(new HunterUnit(world, 0, 1, 2, 1)));
+
+    std::shared_ptr<IUnit>& getUnit = world.getUnitById(id);
+    EXPECT_TRUE(dynamic_cast<IAttackableClose*>(getUnit.get()) != nullptr);
 }
 
 TEST(UnitSpawnTest, GetUnitEmptyWorld) {
@@ -26,7 +66,7 @@ TEST(UnitSpawnTest, GetUnitIncorrectId) {
     GameWorld world;
     world.createMap(10, 10);
     uint32_t id = 0;
-    world.addUnit(std::shared_ptr<IUnit>(new SwordsManUnit(world, id, 1, 2)));
+    world.addUnit(std::shared_ptr<IUnit>(new SwordsManUnit(world, id, 1, 2, 1)));
 
     EXPECT_ANY_THROW(world.getUnitById(10));
 }
@@ -39,7 +79,7 @@ TEST(UnitSpawnTest, EventSpawnSwordsMan) {
     uint32_t y0 = 2;
     
     testing::internal::CaptureStdout();
-    world.addUnit(std::shared_ptr<IUnit>(new SwordsManUnit(world, id, x0, y0)));
+    world.addUnit(std::shared_ptr<IUnit>(new SwordsManUnit(world, id, x0, y0, 1)));
     std::string output = testing::internal::GetCapturedStdout();
 
     std::stringstream expected;
@@ -51,7 +91,7 @@ TEST(UnitSpawnTest, SpawnHunter) {
     GameWorld world;
     world.createMap(10, 10);
     uint32_t id = 0;
-    world.addUnit(std::shared_ptr<IUnit>(new HunterUnit(world, id, 1, 2)));
+    world.addUnit(std::shared_ptr<IUnit>(new HunterUnit(world, id, 1, 2, 1)));
  
     std::shared_ptr<IUnit>& getUnit = world.getUnitById(id);
     EXPECT_TRUE(dynamic_cast<HunterUnit*>(getUnit.get()) != nullptr);
@@ -65,7 +105,7 @@ TEST(UnitSpawnTest, EventSpawnHunter) {
     uint32_t y0 = 2;
     
     testing::internal::CaptureStdout();
-    world.addUnit(std::shared_ptr<IUnit>(new HunterUnit(world, id, x0, y0)));
+    world.addUnit(std::shared_ptr<IUnit>(new HunterUnit(world, id, x0, y0, 1)));
     std::string output = testing::internal::GetCapturedStdout();
 
     std::stringstream expected;
@@ -78,8 +118,8 @@ TEST(UnitSpawnTest, SpawnSamePosition) {
     world.createMap(10, 10);
     uint32_t id = 0;
     
-    world.addUnit(std::shared_ptr<IUnit>(new HunterUnit(world, id, 0, 0)));
-    EXPECT_ANY_THROW(world.addUnit(std::shared_ptr<IUnit>(new SwordsManUnit(world, id, 0, 0))));
+    world.addUnit(std::shared_ptr<IUnit>(new HunterUnit(world, id, 0, 0, 1)));
+    EXPECT_ANY_THROW(world.addUnit(std::shared_ptr<IUnit>(new SwordsManUnit(world, id, 0, 0, 1))));
 }
 
 TEST(UnitSpawnTest, SpawnSameId) {
@@ -87,17 +127,17 @@ TEST(UnitSpawnTest, SpawnSameId) {
     world.createMap(10, 10);
     uint32_t id = 0;
     
-    world.addUnit(std::shared_ptr<IUnit>(new HunterUnit(world, id, 0, 0)));
-    EXPECT_ANY_THROW(world.addUnit(std::shared_ptr<IUnit>(new SwordsManUnit(world, id, 0, 1))));
+    world.addUnit(std::shared_ptr<IUnit>(new HunterUnit(world, id, 0, 0, 1)));
+    EXPECT_ANY_THROW(world.addUnit(std::shared_ptr<IUnit>(new SwordsManUnit(world, id, 0, 1, 1))));
 }
 
 TEST(UnitSpawnTest, MultipleUnitsCheckIds) {
     GameWorld world;
     world.createMap(10, 10);
     
-    world.addUnit(std::shared_ptr<IUnit>(new HunterUnit(world, 0, 0, 0)));
-    world.addUnit(std::shared_ptr<IUnit>(new SwordsManUnit(world, 1, 0, 1)));
-    world.addUnit(std::shared_ptr<IUnit>(new HunterUnit(world, 2, 1, 1)));
+    world.addUnit(std::shared_ptr<IUnit>(new HunterUnit(world, 0, 0, 0, 1)));
+    world.addUnit(std::shared_ptr<IUnit>(new SwordsManUnit(world, 1, 0, 1, 1)));
+    world.addUnit(std::shared_ptr<IUnit>(new HunterUnit(world, 2, 1, 1, 1)));
 
     std::shared_ptr<IUnit>& demoUnit1 = world.getUnitById(0);
     std::shared_ptr<IUnit>& demoUnit2 = world.getUnitById(1);

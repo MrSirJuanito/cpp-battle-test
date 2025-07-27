@@ -20,10 +20,10 @@ protected:
             world.createMap(command.width, command.height);
         })
 	    .add<io::SpawnSwordsman>([&](auto command) {
-            world.addUnit(std::shared_ptr<IUnit>(new SwordsManUnit(world, command.unitId, command.x, command.y)));
+            world.addUnit(std::shared_ptr<IUnit>(new SwordsManUnit(world, command.unitId, command.x, command.y, command.strength)));
         })
 	    .add<io::SpawnHunter>([&](auto command) {
-            world.addUnit(std::shared_ptr<IUnit>(new HunterUnit(world, command.unitId, command.x, command.y)));
+            world.addUnit(std::shared_ptr<IUnit>(new HunterUnit(world, command.unitId, command.x, command.y, command.strength)));
         })
 	    .add<io::March>([&](auto command) {
             std::shared_ptr<IUnit>& unit = world.getUnitById(command.unitId);
