@@ -15,7 +15,7 @@ TEST(UnitMoveTest, UnitMoveBegin) {
     uint32_t y0 = 2;
     world.addUnit(std::shared_ptr<IUnit>(new HunterUnit(world, id, x0, y0)));
 
-    std::shared_ptr<IUnit>& getUnit = world.getUnit(id);
+    std::shared_ptr<IUnit>& getUnit = world.getUnitById(id);
 
     auto m = dynamic_cast<MarchUnit*>(getUnit.get());
     uint32_t targetX = 10;
@@ -41,7 +41,7 @@ TEST(UnitMoveTest, UnitMoveBeginEnd) {
     uint32_t y0 = 2;
     world.addUnit(std::shared_ptr<IUnit>(new HunterUnit(world, id, x0, y0)));
 
-    std::shared_ptr<IUnit>& getUnit = world.getUnit(id);
+    std::shared_ptr<IUnit>& getUnit = world.getUnitById(id);
 
     auto m = dynamic_cast<MarchUnit*>(getUnit.get());
     uint32_t targetX = 2;
@@ -69,7 +69,7 @@ TEST(UnitMoveTest, UnitMoveInProgress) {
     uint32_t y0 = 2;
     world.addUnit(std::shared_ptr<IUnit>(new HunterUnit(world, id, x0, y0)));
 
-    std::shared_ptr<IUnit>& getUnit = world.getUnit(id);
+    std::shared_ptr<IUnit>& getUnit = world.getUnitById(id);
 
     auto m = dynamic_cast<MarchUnit*>(getUnit.get());
     uint32_t targetX = 10;

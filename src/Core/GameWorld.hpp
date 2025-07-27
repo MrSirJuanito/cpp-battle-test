@@ -1,18 +1,17 @@
 #pragma once
 
 #include <cstdint>
-#include <vector>
 #include <memory>
 #include <unordered_map>
 #include <Core/IGameWorld.hpp>
-#include <Core/BaseUnit.hpp>
+#include <Core/IUnit.hpp>
+#include <Core/IMarchable.hpp>
 #include <IO/System/EventLog.hpp>
 #include <IO/Events/MapCreated.hpp>
 #include <IO/Events/UnitSpawned.hpp>
 #include <IO/Events/UnitMoved.hpp>
 #include <IO/Events/MarchStarted.hpp>
 #include <IO/Events/MarchEnded.hpp>
-#include <Features/MarchUnit.hpp>
 
 namespace sw {
 	class GameWorld : public IGameWorld {
@@ -40,20 +39,25 @@ namespace sw {
 		void addUnit(std::shared_ptr<IUnit> unit) {
 			uint32_t position = unit->getY() * width + unit->getX();
 			if (units.count(position) > 0)
-				throw new std::exception();
+				throw new std::runtime_error("Unit at this position already exists");
+			
+			for (auto& [k, v] : units) {
+                if (v->getId() == unit->getId())
+                    throw new std::runtime_error("Unit with this id already exists");
+            }
 
 			eventLog.log(tick, io::UnitSpawned{unit->getId(), unit->getTypeName(), unit->getX(), unit->getY()});
             
 			units[position] = std::move(unit);
 		}
 	
-		std::shared_ptr<IUnit>& getUnit(uint32_t id) {
+		std::shared_ptr<IUnit>& getUnitById(uint32_t id) {
             for (auto& [k, v] : units) {
                 if (v->getId() == id)
                     return v;
             }
             // No unit with the given id found
-			throw new std::exception();
+			throw new std::runtime_error("No unit exists with given id");
 		}
 
         uint64_t nextTick() {

@@ -26,7 +26,7 @@ protected:
             world.addUnit(std::shared_ptr<IUnit>(new HunterUnit(world, command.unitId, command.x, command.y)));
         })
 	    .add<io::March>([&](auto command) {
-            std::shared_ptr<IUnit>& unit = world.getUnit(command.unitId);
+            std::shared_ptr<IUnit>& unit = world.getUnitById(command.unitId);
             auto m = dynamic_cast<IMarchable*>(unit.get());
             m->marchTo(command.targetX, command.targetY);
         });
@@ -56,7 +56,7 @@ TEST_F(CommandParserTest, ParseSpawnSwordsmanCommand) {
     parser.parse(file);
     testing::internal::GetCapturedStdout();
 
-    std::shared_ptr<IUnit>& unit = world.getUnit(1);
+    std::shared_ptr<IUnit>& unit = world.getUnitById(1);
     EXPECT_EQ(unit->getId(), 1);
     EXPECT_EQ(unit->getTypeName(), "Swordsman");
     EXPECT_EQ(unit->getX(), 0);
@@ -71,7 +71,7 @@ TEST_F(CommandParserTest, ParseSpawnHunterCommand) {
     parser.parse(file);
     testing::internal::GetCapturedStdout();
 
-    std::shared_ptr<IUnit>& unit = world.getUnit(2);
+    std::shared_ptr<IUnit>& unit = world.getUnitById(2);
     EXPECT_EQ(unit->getId(), 2);
     EXPECT_EQ(unit->getTypeName(), "Hunter");
     EXPECT_EQ(unit->getX(), 9);
@@ -124,19 +124,19 @@ TEST_F(CommandParserTest, ParseFile) {
     EXPECT_EQ(world.getWidth(), 10);
     EXPECT_EQ(world.getHeight(), 10);
 
-    std::shared_ptr<IUnit>& unit = world.getUnit(1);
+    std::shared_ptr<IUnit>& unit = world.getUnitById(1);
     EXPECT_EQ(unit->getId(), 1);
     EXPECT_EQ(unit->getTypeName(), "Swordsman");
     EXPECT_EQ(unit->getX(), 0);
     EXPECT_EQ(unit->getY(), 0);
 
-    unit = world.getUnit(2);
+    unit = world.getUnitById(2);
     EXPECT_EQ(unit->getId(), 2);
     EXPECT_EQ(unit->getTypeName(), "Hunter");
     EXPECT_EQ(unit->getX(), 9);
     EXPECT_EQ(unit->getY(), 0);
 
-    unit = world.getUnit(3);
+    unit = world.getUnitById(3);
     EXPECT_EQ(unit->getId(), 3);
     EXPECT_EQ(unit->getTypeName(), "Swordsman");
     EXPECT_EQ(unit->getX(), 0);

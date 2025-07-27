@@ -12,14 +12,14 @@ TEST(UnitSpawnTest, SpawnSwordsMan) {
     uint32_t id = 0;
     world.addUnit(std::shared_ptr<IUnit>(new SwordsManUnit(world, 0, 1, 2)));
 
-    std::shared_ptr<IUnit>& getUnit = world.getUnit(id);
+    std::shared_ptr<IUnit>& getUnit = world.getUnitById(id);
     EXPECT_TRUE(dynamic_cast<SwordsManUnit*>(getUnit.get()) != nullptr);
 }
 
 TEST(UnitSpawnTest, GetUnitEmptyWorld) {
     GameWorld world;
     world.createMap(10, 10);
-    EXPECT_ANY_THROW(world.getUnit(0));
+    EXPECT_ANY_THROW(world.getUnitById(0));
 }
 
 TEST(UnitSpawnTest, GetUnitIncorrectId) {
@@ -28,7 +28,7 @@ TEST(UnitSpawnTest, GetUnitIncorrectId) {
     uint32_t id = 0;
     world.addUnit(std::shared_ptr<IUnit>(new SwordsManUnit(world, id, 1, 2)));
 
-    EXPECT_ANY_THROW(world.getUnit(10));
+    EXPECT_ANY_THROW(world.getUnitById(10));
 }
 
 TEST(UnitSpawnTest, EventSpawnSwordsMan) {
@@ -53,7 +53,7 @@ TEST(UnitSpawnTest, SpawnHunter) {
     uint32_t id = 0;
     world.addUnit(std::shared_ptr<IUnit>(new HunterUnit(world, id, 1, 2)));
  
-    std::shared_ptr<IUnit>& getUnit = world.getUnit(id);
+    std::shared_ptr<IUnit>& getUnit = world.getUnitById(id);
     EXPECT_TRUE(dynamic_cast<HunterUnit*>(getUnit.get()) != nullptr);
 }
 
@@ -73,13 +73,22 @@ TEST(UnitSpawnTest, EventSpawnHunter) {
     EXPECT_EQ(output, expected.str());
 }
 
-TEST(UnitSpawnTest, MultipleUnitsSamePosition) {
+TEST(UnitSpawnTest, SpawnSamePosition) {
     GameWorld world;
     world.createMap(10, 10);
     uint32_t id = 0;
     
     world.addUnit(std::shared_ptr<IUnit>(new HunterUnit(world, id, 0, 0)));
     EXPECT_ANY_THROW(world.addUnit(std::shared_ptr<IUnit>(new SwordsManUnit(world, id, 0, 0))));
+}
+
+TEST(UnitSpawnTest, SpawnSameId) {
+    GameWorld world;
+    world.createMap(10, 10);
+    uint32_t id = 0;
+    
+    world.addUnit(std::shared_ptr<IUnit>(new HunterUnit(world, id, 0, 0)));
+    EXPECT_ANY_THROW(world.addUnit(std::shared_ptr<IUnit>(new SwordsManUnit(world, id, 0, 1))));
 }
 
 TEST(UnitSpawnTest, MultipleUnitsCheckIds) {
@@ -90,9 +99,9 @@ TEST(UnitSpawnTest, MultipleUnitsCheckIds) {
     world.addUnit(std::shared_ptr<IUnit>(new SwordsManUnit(world, 1, 0, 1)));
     world.addUnit(std::shared_ptr<IUnit>(new HunterUnit(world, 2, 1, 1)));
 
-    std::shared_ptr<IUnit>& demoUnit1 = world.getUnit(0);
-    std::shared_ptr<IUnit>& demoUnit2 = world.getUnit(1);
-    std::shared_ptr<IUnit>& demoUnit3 = world.getUnit(2);
+    std::shared_ptr<IUnit>& demoUnit1 = world.getUnitById(0);
+    std::shared_ptr<IUnit>& demoUnit2 = world.getUnitById(1);
+    std::shared_ptr<IUnit>& demoUnit3 = world.getUnitById(2);
     EXPECT_TRUE(dynamic_cast<HunterUnit*>(demoUnit1.get()) != nullptr);
     EXPECT_TRUE(dynamic_cast<SwordsManUnit*>(demoUnit2.get()) != nullptr);
     EXPECT_TRUE(dynamic_cast<HunterUnit*>(demoUnit3.get()) != nullptr);

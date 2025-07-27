@@ -1,8 +1,8 @@
 #pragma once
 
 #include <Core/IGameWorld.hpp>
-#include <Core/BaseUnit.hpp>
 #include <Core/IMarchable.hpp>
+#include <Core/BaseUnit.hpp>
 
 namespace sw {
     class MarchUnit : public IMarchable, public BaseUnit {
