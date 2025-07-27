@@ -1,8 +1,7 @@
 #pragma once
 
-#include <Core/IGameWorld.hpp>
 #include <Core/IAttackableClose.hpp>
-#include <Core/BaseUnit.hpp>
+#include <IO/Events/UnitAttacked.hpp>
 
 namespace sw {
     class AttackCloseUnit : public virtual IAttackableClose {

@@ -7,7 +7,7 @@
 #include <IO/Commands/SpawnHunter.hpp>
 #include <IO/Commands/SpawnSwordsman.hpp>
 #include <Core/GameWorld.hpp>
-#include <Features/SwordsManUnit.hpp>
+#include <Features/SwordsmanUnit.hpp>
 #include <Features/HunterUnit.hpp>
 #include <Core/IMarchable.hpp>
 
@@ -20,10 +20,10 @@ protected:
             world.createMap(command.width, command.height);
         })
 	    .add<io::SpawnSwordsman>([&](auto command) {
-            world.addUnit(std::shared_ptr<IUnit>(new SwordsManUnit(world, command.unitId, command.x, command.y, command.strength)));
+            world.addUnit(std::shared_ptr<IUnit>(new SwordsmanUnit(world, command.unitId, command.x, command.y, command.hp, command.strength)));
         })
 	    .add<io::SpawnHunter>([&](auto command) {
-            world.addUnit(std::shared_ptr<IUnit>(new HunterUnit(world, command.unitId, command.x, command.y, command.strength)));
+            world.addUnit(std::shared_ptr<IUnit>(new HunterUnit(world, command.unitId, command.x, command.y, command.hp, command.strength)));
         })
 	    .add<io::March>([&](auto command) {
             std::shared_ptr<IUnit>& unit = world.getUnitById(command.unitId);
