@@ -10,14 +10,17 @@ namespace sw {
         private:
             IUnit& owner;
             uint32_t strength;
+            uint32_t maxEnemies;
 
         public:
-            AttackCloseUnit(IUnit& _owner, uint32_t _strength) :
+            AttackCloseUnit(IUnit& _owner, uint32_t _strength, uint32_t _maxEnemies) :
                 owner{_owner},
-                strength{_strength}
+                strength{_strength},
+                maxEnemies{_maxEnemies}
             {}
 
             uint32_t getStrength() const override { return strength; }
+            uint32_t getMaxEnemies() const override { return maxEnemies; }
 
             bool doAttackClose() override {
                 std::vector<std::shared_ptr<IUnit>> unitsAttack;
@@ -37,13 +40,24 @@ namespace sw {
                     }
                 }
 
-                if (unitsAttack.size() == 0)
-                    return false;
+                // Attacker can be able to attack multiple enemies. Pick each of them randomly
+                bool attackedSomebody = false;
+                for (uint32_t enemy = 0; enemy < maxEnemies; ++enemy) {
+                    if (unitsAttack.size() == 0)
+                        continue;
                 
-                uint32_t attackId = rand() % unitsAttack.size();
-                auto h = dynamic_cast<IHealthable*>(unitsAttack[attackId].get());
-                h->setHealth(h->getHealth() - strength);
-                return true;
+                    uint32_t attackId = rand() % unitsAttack.size();
+                    auto h = dynamic_cast<IHealthable*>(unitsAttack[attackId].get());
+                    h->setHealth(h->getHealth() - strength);
+                    
+                    owner.getWorld().getEventLog().log(owner.getWorld().getTick(), 
+                        io::UnitAttacked{owner.getId(), unitsAttack[attackId]->getId(), strength, h->getHealth()});
+
+                    unitsAttack.erase(unitsAttack.begin() + attackId);
+                    attackedSomebody = true;
+                }
+
+                return attackedSomebody;
             }
     };
 }

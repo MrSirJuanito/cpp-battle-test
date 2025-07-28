@@ -12,7 +12,7 @@ namespace sw {
 			BaseUnit{_world, _id, _x, _y},
 			HealthUnit{*this, _health},
 			MarchUnit{*this, 1},
-			AttackCloseUnit{*this, _strength}
+			AttackCloseUnit{*this, _strength, 1}
 		{}
 	
 		std::string getTypeName() const override { return "Hunter"; }

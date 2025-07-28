@@ -41,3 +41,28 @@ TEST(UnitAttackCloseTest, UnitAttackNearest) {
     EXPECT_EQ(healthAttacker->getHealth(), healthInit);
     EXPECT_EQ(healthDefender->getHealth(), healthInit - 1);
 }
+
+TEST(UnitAttackCloseTest, EventUnitAttackNearest) {
+    GameWorld world;
+    world.createMap(10, 10);
+    
+    uint32_t attackerId = 0;
+    uint32_t attackerStrength = 1;
+    uint32_t targetId = 1;
+    uint32_t healthInit = 5;
+    std::shared_ptr<IUnit> attacker(new HunterUnit(world, attackerId, 2, 2, healthInit, attackerStrength));
+    world.addUnit(attacker);
+    std::shared_ptr<IUnit> defender(new HunterUnit(world, targetId, 3, 2, healthInit, 1));
+    world.addUnit(defender);
+
+    auto a = dynamic_cast<IAttackableClose*>(attacker.get());
+    testing::internal::CaptureStdout();
+    a->doAttackClose();
+    std::string output = testing::internal::GetCapturedStdout();
+
+    std::stringstream expected;
+    expected << "[0] UNIT_ATTACKED attackerUnitId=" << attackerId << " targetUnitId=" << targetId <<
+        " damage=" << attackerStrength << " targetHp=" << healthInit - 1 << " \n";
+    
+    EXPECT_EQ(output, expected.str());
+}
