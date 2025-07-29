@@ -5,7 +5,9 @@
 #include <unordered_map>
 #include <Core/IGameWorld.hpp>
 #include <Core/IUnit.hpp>
+#include <Core/IHealthable.hpp>
 #include <Core/IAttackableClose.hpp>
+#include <Core/IAttackableFar.hpp>
 #include <Core/IMarchable.hpp>
 #include <IO/System/EventLog.hpp>
 #include <IO/Events/MapCreated.hpp>
@@ -74,16 +76,41 @@ namespace sw {
         uint64_t nextTick() {
 			++tick;
             for (auto& [k, v] : units) {
-				bool attacked = false;
+				if (auto h = dynamic_cast<IHealthable*>(v.get())) {
+					if (h->getHealth() <= 0)
+						continue;
+				}
+
+				bool attackedClose = false;
 				if (auto a = dynamic_cast<IAttackableClose*>(v.get())) {
-					attacked = a->doAttackClose();
+					attackedClose = a->doAttackClose();
 				}
 				// If a unit is not attackable or the attack didn't succeed - march
-                if (!attacked) 
-					if (auto m = dynamic_cast<IMarchable*>(v.get())) {
-                    	m->doMarch();
-					}
+                if (attackedClose)
+					continue;
+
+				bool attackedFar = false;
+				if (auto a = dynamic_cast<IAttackableFar*>(v.get())) {
+					attackedFar = a->doAttackFar();
+				}
+				if (attackedFar)
+					continue;
+				
+				if (auto m = dynamic_cast<IMarchable*>(v.get())) {
+                    m->doMarch();
+				}
             }
+
+			// Clean up - erase all units with HP <= 0
+			auto it = units.begin();
+			while( it != units.end()) {
+				auto h = dynamic_cast<IHealthable*>(it->second.get());
+				if (h->getHealth() <= 0) {
+					it = units.erase(it);
+				} else {
+					++it;
+				}
+			}
 			return tick;
         }
 

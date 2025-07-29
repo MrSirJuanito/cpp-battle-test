@@ -57,10 +57,11 @@ namespace sw {
                 
                     uint32_t attackId = rand() % unitsAttack.size();
                     auto h = dynamic_cast<IHealthable*>(unitsAttack[attackId].get());
-                    h->setHealth(h->getHealth() - strength);
-                    
+
                     owner.getWorld().getEventLog().log(owner.getWorld().getTick(), 
-                        io::UnitAttacked{owner.getId(), unitsAttack[attackId]->getId(), strength, h->getHealth()});
+                        io::UnitAttacked{owner.getId(), unitsAttack[attackId]->getId(), strength, h->getHealth() - strength});
+                    
+                    h->setHealth(h->getHealth() - strength);
 
                     unitsAttack.erase(unitsAttack.begin() + attackId);
                     attackedSomebody = true;

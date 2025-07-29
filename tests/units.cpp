@@ -166,17 +166,3 @@ TEST(UnitSpawnTest, MultipleUnitsCheckIds) {
     EXPECT_TRUE(dynamic_cast<SwordsmanUnit*>(demoUnit2.get()) != nullptr);
     EXPECT_TRUE(dynamic_cast<HunterUnit*>(demoUnit3.get()) != nullptr);
 }
-
-TEST(UnitDieTest, DieSwordsman) {
-    //Create a map
-    //Spawn a unit with Swordsman type and live for 1 turn
-    //Do next turn
-    //Check if unit has died
-}
-
-TEST(UnitDieTest, DieHunter) {
-    //Create a map
-    //Spawn a unit with Hunter type and live for 1 turn
-    //Do next turn
-    //Check if unit has died
-}

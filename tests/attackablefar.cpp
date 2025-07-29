@@ -73,3 +73,26 @@ TEST(UnitAttackFarTest, EventHunterAttackInRange) {
 TEST(UnitAttackFarTest, HunterAttackOnlyOne) {
     // TODO
 }
+
+TEST(UnitAttackFarTest, EventHunterDie) {
+    GameWorld world;
+    world.createMap(10, 10);
+    
+    uint32_t attackerId = 1;
+    uint32_t defenderId = 2;
+    uint32_t agility = 5;
+    std::shared_ptr<IUnit> attacker(new HunterUnit(world, attackerId, 0, 1, 1, 1, agility, 5));
+    world.addUnit(attacker);
+    world.addUnit(std::shared_ptr<IUnit>(new SwordsmanUnit(world, defenderId, 5, 1, 5, 1)));
+
+    testing::internal::CaptureStdout();
+    auto a = dynamic_cast<IAttackableFar*>(attacker.get());
+    a->doAttackFar();
+    std::string output = testing::internal::GetCapturedStdout();
+
+    std::stringstream expected;
+    expected << "[0] UNIT_ATTACKED attackerUnitId=" << attackerId << " targetUnitId=" << defenderId << " damage=" << agility << " targetHp=0 \n" \
+        "[0] UNIT_DIED unitId=" << defenderId << " \n";
+
+    EXPECT_EQ(output, expected.str());
+}

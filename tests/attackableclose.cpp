@@ -181,3 +181,26 @@ TEST(UnitAttackCloseTest, SwordsmanAttackOnlyOne) {
     // this means that only one unit was attacked, which is our goal
     EXPECT_EQ(healthTotalActual, healthTotal-attackerStrength);
 }
+
+TEST(UnitAttackCloseTest, EventSwordsmanDie) {
+    GameWorld world;
+    world.createMap(10, 10);
+    
+    uint32_t attackerId = 1;
+    uint32_t defenderId = 2;
+    uint32_t strength = 1;
+    std::shared_ptr<IUnit> attacker(new SwordsmanUnit(world, attackerId, 0, 1, 1, strength));
+    world.addUnit(attacker);
+    world.addUnit(std::shared_ptr<IUnit>(new SwordsmanUnit(world, defenderId, 1, 1, 1, 1)));
+
+    testing::internal::CaptureStdout();
+    auto a = dynamic_cast<IAttackableClose*>(attacker.get());
+    a->doAttackClose();
+    std::string output = testing::internal::GetCapturedStdout();
+
+    std::stringstream expected;
+    expected << "[0] UNIT_ATTACKED attackerUnitId=" << attackerId << " targetUnitId=" << defenderId << " damage=" << strength << " targetHp=0 \n" \
+        "[0] UNIT_DIED unitId=" << defenderId << " \n";
+
+    EXPECT_EQ(output, expected.str());
+}
