@@ -2,9 +2,9 @@
 
 #include <vector>
 #include <memory>
-#include <cmath>
 #include <Core/IAttackableFar.hpp>
 #include <Core/IHealthable.hpp>
+#include <Core/Utils.hpp>
 #include <IO/Events/UnitAttacked.hpp>
 
 namespace sw {
@@ -30,8 +30,8 @@ namespace sw {
             bool doAttackFar() override {
                 std::vector<std::shared_ptr<IUnit>> unitsAttack;
 
-                for (int dx = -(int)range; dx <= (int)range; ++dx) {
-                    for (int dy = -(int)range; dy <= (int)range; ++dy) {
+                for (int dx = -static_cast<int>(range); dx <= static_cast<int>(range); ++dx) {
+                    for (int dy = -static_cast<int>(range); dy <= static_cast<int>(range); ++dy) {
                         // Skip checking for target at your own position
                         if (dx == 0 && dy == 0)
                             continue;
@@ -43,7 +43,7 @@ namespace sw {
                             static_cast<int>(owner.getY()) + dy >= owner.getWorld().getHeight())
                             continue;
 
-                        uint32_t dist = distanceTo(owner.getX() + dx, owner.getY() + dy);
+                        uint32_t dist = Utils::distanceTo(owner, owner.getX() + dx, owner.getY() + dy);
                         if (dist > range || dist == 1)
                             continue;
                          
@@ -80,14 +80,6 @@ namespace sw {
                 }
 
                 return attackedSomebody;
-            }
-
-        private:
-            uint32_t distanceTo(uint32_t targetX, uint32_t targetY) {
-                return static_cast<uint32_t>(std::sqrt(
-                    std::pow(static_cast<double>(owner.getX()) - static_cast<double>(targetX), 2) +
-                    std::pow(static_cast<double>(owner.getY()) - static_cast<double>(targetY), 2))
-                );
             }
     };
 }

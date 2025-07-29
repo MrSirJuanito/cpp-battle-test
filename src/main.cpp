@@ -45,7 +45,7 @@ int main(int argc, char** argv)
             world.addUnit(std::shared_ptr<IUnit>(new SwordsmanUnit(world, command.unitId, command.x, command.y, command.hp, command.strength)));
         })
 	    .add<io::SpawnHunter>([&](auto command) {
-            world.addUnit(std::shared_ptr<IUnit>(new HunterUnit(world, command.unitId, command.x, command.y, command.hp, command.strength, command.agility, command.range)));
+            world.addUnit(std::shared_ptr<IUnit>(new HunterUnit(world, command.unitId, command.x, command.y, command.hp, command.agility, command.strength, command.range)));
         })
 	    .add<io::March>([&](auto command) {
             std::shared_ptr<IUnit>& unit = world.getUnitById(command.unitId);

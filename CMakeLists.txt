@@ -32,6 +32,7 @@ add_executable(unit-tests
     tests/attackableclose.cpp
     tests/attackablefar.cpp
     tests/commands.cpp
+    tests/integration.cpp
 )
 
 target_include_directories(unit-tests PUBLIC src/)

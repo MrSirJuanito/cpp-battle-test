@@ -23,7 +23,7 @@ protected:
             world.addUnit(std::shared_ptr<IUnit>(new SwordsmanUnit(world, command.unitId, command.x, command.y, command.hp, command.strength)));
         })
 	    .add<io::SpawnHunter>([&](auto command) {
-            world.addUnit(std::shared_ptr<IUnit>(new HunterUnit(world, command.unitId, command.x, command.y, command.hp, command.strength, command.agility, command.range)));
+            world.addUnit(std::shared_ptr<IUnit>(new HunterUnit(world, command.unitId, command.x, command.y, command.hp, command.agility, command.strength, command.range)));
         })
 	    .add<io::March>([&](auto command) {
             std::shared_ptr<IUnit>& unit = world.getUnitById(command.unitId);
@@ -80,6 +80,16 @@ TEST_F(CommandParserTest, ParseSpawnHunterCommand) {
     EXPECT_EQ(unit->getTypeName(), "Hunter");
     EXPECT_EQ(unit->getX(), 9);
     EXPECT_EQ(unit->getY(), 0);
+
+    auto h = dynamic_cast<IHealthable*>(unit.get());
+    EXPECT_EQ(h->getHealth(), 10);
+
+    auto s = dynamic_cast<IAttackableClose*>(unit.get());
+    EXPECT_EQ(s->getStrength(), 1);
+
+    auto a = dynamic_cast<IAttackableFar*>(unit.get());
+    EXPECT_EQ(a->getAgility(), 5);
+    EXPECT_EQ(a->getRange(), 4);
 }
 
 TEST_F(CommandParserTest, EventParseCreateMapCommand) {

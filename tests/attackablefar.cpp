@@ -81,7 +81,7 @@ TEST(UnitAttackFarTest, EventHunterDie) {
     uint32_t attackerId = 1;
     uint32_t defenderId = 2;
     uint32_t agility = 5;
-    std::shared_ptr<IUnit> attacker(new HunterUnit(world, attackerId, 0, 1, 1, 1, agility, 5));
+    std::shared_ptr<IUnit> attacker(new HunterUnit(world, attackerId, 0, 1, 1, agility, 1, 5));
     world.addUnit(attacker);
     world.addUnit(std::shared_ptr<IUnit>(new SwordsmanUnit(world, defenderId, 5, 1, 5, 1)));
 

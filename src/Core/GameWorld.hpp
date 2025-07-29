@@ -128,7 +128,7 @@ namespace sw {
 				}
 			}
 
-			return action || units.begin() != units.end();
+			return action && units.begin() != units.end();
         }
 	};
 }
