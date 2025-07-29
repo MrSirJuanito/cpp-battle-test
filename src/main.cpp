@@ -16,6 +16,7 @@
 #include <iostream>
 #include <Features/SwordsmanUnit.hpp>
 #include <Features/HunterUnit.hpp>
+#include <Core/GameWorld.hpp>
 
 int main(int argc, char** argv)
 {
@@ -36,15 +37,31 @@ int main(int argc, char** argv)
 
 	std::cout << "Commands:\n";
 	io::CommandParser parser;
-	parser.add<io::CreateMap>([](auto command) { printDebug(std::cout, command); })
-		.add<io::SpawnSwordsman>([](auto command) { printDebug(std::cout, command); })
-		.add<io::SpawnHunter>([](auto command) { printDebug(std::cout, command); })
-		.add<io::March>([](auto command) { printDebug(std::cout, command); });
+	GameWorld world;
+	parser.add<io::CreateMap>([&](auto command) {
+            world.createMap(command.width, command.height);
+        })
+	    .add<io::SpawnSwordsman>([&](auto command) {
+            world.addUnit(std::shared_ptr<IUnit>(new SwordsmanUnit(world, command.unitId, command.x, command.y, command.hp, command.strength)));
+        })
+	    .add<io::SpawnHunter>([&](auto command) {
+            world.addUnit(std::shared_ptr<IUnit>(new HunterUnit(world, command.unitId, command.x, command.y, command.hp, command.strength, command.agility, command.range)));
+        })
+	    .add<io::March>([&](auto command) {
+            std::shared_ptr<IUnit>& unit = world.getUnitById(command.unitId);
+            auto m = dynamic_cast<IMarchable*>(unit.get());
+            m->marchTo(command.targetX, command.targetY);
+        });
 
 	parser.parse(file);
 
 	std::cout << "\n\nEvents:\n";
 
+	while (world.nextTick()) {
+		std::cout << " " << std::endl;
+	}
+
+	/*
 	EventLog eventLog;
 
 	eventLog.log(1, io::MapCreated{10, 10});
@@ -79,6 +96,7 @@ int main(int argc, char** argv)
 
 	eventLog.log(8, io::UnitAttacked{2, 3, 5, 0});
 	eventLog.log(8, io::UnitDied{3});
+	*/
 
 	return 0;
 }

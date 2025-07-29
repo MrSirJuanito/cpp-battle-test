@@ -64,7 +64,7 @@ TEST(UnitAttackFarTest, EventHunterAttackInRange) {
     std::string output = testing::internal::GetCapturedStdout();
 
     std::stringstream expected;
-    expected << "[0] UNIT_ATTACKED attackerUnitId=" << attackerId << " targetUnitId=" << targetId <<
+    expected << "[1] UNIT_ATTACKED attackerUnitId=" << attackerId << " targetUnitId=" << targetId <<
         " damage=" << attackerAgility << " targetHp=" << healthInit - 1 << " \n";
     
     EXPECT_EQ(output, expected.str());
@@ -91,8 +91,8 @@ TEST(UnitAttackFarTest, EventHunterDie) {
     std::string output = testing::internal::GetCapturedStdout();
 
     std::stringstream expected;
-    expected << "[0] UNIT_ATTACKED attackerUnitId=" << attackerId << " targetUnitId=" << defenderId << " damage=" << agility << " targetHp=0 \n" \
-        "[0] UNIT_DIED unitId=" << defenderId << " \n";
+    expected << "[1] UNIT_ATTACKED attackerUnitId=" << attackerId << " targetUnitId=" << defenderId << " damage=" << agility << " targetHp=0 \n" \
+        "[1] UNIT_DIED unitId=" << defenderId << " \n";
 
     EXPECT_EQ(output, expected.str());
 }

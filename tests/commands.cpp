@@ -36,6 +36,10 @@ protected:
     io::CommandParser parser;
 };
 
+TEST_F(CommandParserTest, CommandExists) {
+    EXPECT_ANY_THROW(parser.add<io::CreateMap>([](auto command) {}));
+}
+
 TEST_F(CommandParserTest, ParseCreateMapCommand) {
     std::stringstream file;
     file << "CREATE_MAP 10 10";
@@ -86,7 +90,7 @@ TEST_F(CommandParserTest, EventParseCreateMapCommand) {
     parser.parse(file);
     std::string output = testing::internal::GetCapturedStdout();
 
-    std::string expected = "[0] MAP_CREATED width=10 height=10 \n";
+    std::string expected = "[1] MAP_CREATED width=10 height=10 \n";
     EXPECT_EQ(output, expected);
 }
 
@@ -98,7 +102,7 @@ TEST_F(CommandParserTest, EventParseSpawnSwordsmanCommand) {
     parser.parse(file);
     std::string output = testing::internal::GetCapturedStdout();
 
-    std::string expected = "[0] UNIT_SPAWNED unitId=1 unitType=Swordsman x=0 y=0 \n";
+    std::string expected = "[1] UNIT_SPAWNED unitId=1 unitType=Swordsman x=0 y=0 \n";
     EXPECT_EQ(output, expected);
 }
 
@@ -110,7 +114,7 @@ TEST_F(CommandParserTest, EventParseSpawnHunterCommand) {
     parser.parse(file);
     std::string output = testing::internal::GetCapturedStdout();
 
-    std::string expected = "[0] UNIT_SPAWNED unitId=2 unitType=Hunter x=9 y=0 \n";
+    std::string expected = "[1] UNIT_SPAWNED unitId=2 unitType=Hunter x=9 y=0 \n";
     EXPECT_EQ(output, expected);
 }
 
@@ -151,12 +155,12 @@ TEST_F(CommandParserTest, EventParseFile) {
     std::string output = testing::internal::GetCapturedStdout();
 
     std::string expected = 
-        "[0] MAP_CREATED width=10 height=10 \n"\
-        "[0] UNIT_SPAWNED unitId=1 unitType=Swordsman x=0 y=0 \n"\
-        "[0] UNIT_SPAWNED unitId=2 unitType=Hunter x=9 y=0 \n"\
-        "[0] MARCH_STARTED unitId=1 x=0 y=0 targetX=9 targetY=0 \n"\
-        "[0] MARCH_STARTED unitId=2 x=9 y=0 targetX=0 targetY=0 \n"\
-        "[0] UNIT_SPAWNED unitId=3 unitType=Swordsman x=0 y=9 \n"\
-        "[0] MARCH_STARTED unitId=3 x=0 y=9 targetX=0 targetY=0 \n";
+        "[1] MAP_CREATED width=10 height=10 \n"\
+        "[1] UNIT_SPAWNED unitId=1 unitType=Swordsman x=0 y=0 \n"\
+        "[1] UNIT_SPAWNED unitId=2 unitType=Hunter x=9 y=0 \n"\
+        "[1] MARCH_STARTED unitId=1 x=0 y=0 targetX=9 targetY=0 \n"\
+        "[1] MARCH_STARTED unitId=2 x=9 y=0 targetX=0 targetY=0 \n"\
+        "[1] UNIT_SPAWNED unitId=3 unitType=Swordsman x=0 y=9 \n"\
+        "[1] MARCH_STARTED unitId=3 x=0 y=9 targetX=0 targetY=0 \n";
     EXPECT_EQ(output, expected);
 }

@@ -3,6 +3,7 @@
 #include <cstdint>
 #include <memory>
 #include <unordered_map>
+#include <vector>
 #include <Core/IGameWorld.hpp>
 #include <Core/IUnit.hpp>
 #include <Core/IHealthable.hpp>
@@ -21,10 +22,11 @@ namespace sw {
 	private:
 		EventLog eventLog;
 		std::unordered_map<uint32_t, std::shared_ptr<IUnit>> units;
+		std::vector<uint32_t> unitIds;
 
 		uint32_t width = 0;
 		uint32_t height = 0;
-		uint64_t tick = 0;
+		uint64_t tick = 1;
 	
 	public:
 		uint32_t getWidth() const override { return width; };
@@ -40,42 +42,46 @@ namespace sw {
 		}
 
 		void addUnit(std::shared_ptr<IUnit> unit) {
-			uint32_t position = positionAtMap(unit->getX(), unit->getY());
-			if (units.count(position) > 0)
-				throw new std::runtime_error("Unit at this position already exists");
+			if (units.count(unit->getId()) > 0)
+				throw new std::runtime_error("Unit with this id already exists");
 			
 			for (auto& [k, v] : units) {
-                if (v->getId() == unit->getId())
+                if (v->getX() == unit->getX() && v->getY() == unit->getY())
                     throw new std::runtime_error("Unit with this id already exists");
             }
 
 			eventLog.log(tick, io::UnitSpawned{unit->getId(), unit->getTypeName(), unit->getX(), unit->getY()});
             
-			units[position] = std::move(unit);
+			unitIds.emplace_back(unit->getId());
+			units[unit->getId()] = std::move(unit);
 		}
 	
 		bool existUnitAtPos(uint32_t _x, uint32_t _y) override {
-			uint32_t position = positionAtMap(_x, _y);
-			return units.count(position) > 0;
+			for (auto& [k, v] : units) {
+                if (v->getX() == _x && v->getY() == _y)
+                    return true;
+            }
+			return false;
 		}
 
         std::shared_ptr<IUnit>& getUnitAtPos(uint32_t _x, uint32_t _y) override {
-			uint32_t position = positionAtMap(_x, _y);
-			return units.at(position);
+			for (auto& [k, v] : units) {
+                if (v->getX() == _x && v->getY() == _y)
+                    return v;
+            }
+			// No unit with the given id found
+			throw new std::runtime_error("No unit exists at given position");
 		}
 
 		std::shared_ptr<IUnit>& getUnitById(uint32_t id) override {
-            for (auto& [k, v] : units) {
-                if (v->getId() == id)
-                    return v;
-            }
-            // No unit with the given id found
-			throw new std::runtime_error("No unit exists with given id");
+            return units.at(id);
 		}
 
-        uint64_t nextTick() {
+        bool nextTick() {
 			++tick;
-            for (auto& [k, v] : units) {
+			bool action = false;
+			for (auto& id : unitIds) {
+				auto& v = getUnitById(id);
 				if (auto h = dynamic_cast<IHealthable*>(v.get())) {
 					if (h->getHealth() <= 0)
 						continue;
@@ -86,37 +92,43 @@ namespace sw {
 					attackedClose = a->doAttackClose();
 				}
 				// If a unit is not attackable or the attack didn't succeed - march
-                if (attackedClose)
+                if (attackedClose) {
+					action = true;
 					continue;
+				}
 
 				bool attackedFar = false;
 				if (auto a = dynamic_cast<IAttackableFar*>(v.get())) {
 					attackedFar = a->doAttackFar();
 				}
-				if (attackedFar)
+				if (attackedFar) {
+					action = true;
 					continue;
+				}
 				
+				bool marched = false;
 				if (auto m = dynamic_cast<IMarchable*>(v.get())) {
-                    m->doMarch();
+                    marched = m->doMarch();
+				}
+				if (marched) {
+					action = true;
 				}
             }
 
 			// Clean up - erase all units with HP <= 0
-			auto it = units.begin();
-			while( it != units.end()) {
-				auto h = dynamic_cast<IHealthable*>(it->second.get());
+			auto it = unitIds.begin();
+			while (it != unitIds.end()) {
+				auto& v = getUnitById(*it);
+				auto h = dynamic_cast<IHealthable*>(v.get());
 				if (h->getHealth() <= 0) {
-					it = units.erase(it);
+					units.erase(*it);
+					it = unitIds.erase(it);
 				} else {
 					++it;
 				}
 			}
-			return tick;
-        }
 
-	private:
-		uint32_t positionAtMap(uint32_t _x, uint32_t _y) {
-			return _y * width + _x;
-		}
+			return action || units.begin() != units.end();
+        }
 	};
 }

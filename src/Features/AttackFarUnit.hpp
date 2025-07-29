@@ -51,7 +51,9 @@ namespace sw {
                             std::shared_ptr<IUnit>& unit = owner.getWorld().getUnitAtPos(owner.getX() + dx, owner.getY() + dy);
                             // Attach only those units that are Healthable (have HP)
                             if (auto h = dynamic_cast<IHealthable*>(unit.get())) {
-                                unitsAttack.push_back(unit);
+                                if (h->getHealth() > 0) {
+                                    unitsAttack.emplace_back(unit);
+                                }
                             }
                         }
                     }
@@ -65,11 +67,13 @@ namespace sw {
                 
                     uint32_t attackId = rand() % unitsAttack.size();
                     auto h = dynamic_cast<IHealthable*>(unitsAttack[attackId].get());
+
+                    uint32_t healthNew = (h->getHealth() >= agility) ? h->getHealth() - agility : 0;
                     
                     owner.getWorld().getEventLog().log(owner.getWorld().getTick(), 
-                        io::UnitAttacked{owner.getId(), unitsAttack[attackId]->getId(), agility, h->getHealth() - agility});
+                        io::UnitAttacked{owner.getId(), unitsAttack[attackId]->getId(), agility, healthNew});
 
-                    h->setHealth(h->getHealth() - agility);
+                    h->setHealth(healthNew);
 
                     unitsAttack.erase(unitsAttack.begin() + attackId);
                     attackedSomebody = true;

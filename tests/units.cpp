@@ -103,7 +103,7 @@ TEST(UnitSpawnTest, EventSpawnSwordsman) {
     std::string output = testing::internal::GetCapturedStdout();
 
     std::stringstream expected;
-    expected << "[0] UNIT_SPAWNED unitId=" << id << " unitType=Swordsman x=" << x0 << " y=" << y0 << " \n";
+    expected << "[1] UNIT_SPAWNED unitId=" << id << " unitType=Swordsman x=" << x0 << " y=" << y0 << " \n";
     EXPECT_EQ(output, expected.str());
 }
 
@@ -129,7 +129,7 @@ TEST(UnitSpawnTest, EventSpawnHunter) {
     std::string output = testing::internal::GetCapturedStdout();
 
     std::stringstream expected;
-    expected << "[0] UNIT_SPAWNED unitId=" << id << " unitType=Hunter x=" << x0 << " y=" << y0 << " \n";
+    expected << "[1] UNIT_SPAWNED unitId=" << id << " unitType=Hunter x=" << x0 << " y=" << y0 << " \n";
     EXPECT_EQ(output, expected.str());
 }
 
