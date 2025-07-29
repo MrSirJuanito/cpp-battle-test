@@ -13,7 +13,7 @@ TEST(UnitMoveTest, UnitMoveBegin) {
     uint32_t id = 0;
     uint32_t x0 = 1;
     uint32_t y0 = 2;
-    world.addUnit(std::shared_ptr<IUnit>(new HunterUnit(world, id, x0, y0, 1, 1)));
+    world.addUnit(std::shared_ptr<IUnit>(new SwordsmanUnit(world, id, x0, y0, 1, 1)));
 
     std::shared_ptr<IUnit>& getUnit = world.getUnitById(id);
 
@@ -39,7 +39,7 @@ TEST(UnitMoveTest, UnitMoveBeginEnd) {
     uint32_t id = 0;
     uint32_t x0 = 1;
     uint32_t y0 = 2;
-    world.addUnit(std::shared_ptr<IUnit>(new HunterUnit(world, id, x0, y0, 1, 1)));
+    world.addUnit(std::shared_ptr<IUnit>(new SwordsmanUnit(world, id, x0, y0, 1, 1)));
 
     std::shared_ptr<IUnit>& getUnit = world.getUnitById(id);
 
@@ -67,7 +67,7 @@ TEST(UnitMoveTest, UnitMoveInProgress) {
     uint32_t id = 0;
     uint32_t x0 = 1;
     uint32_t y0 = 2;
-    world.addUnit(std::shared_ptr<IUnit>(new HunterUnit(world, id, x0, y0, 1, 1)));
+    world.addUnit(std::shared_ptr<IUnit>(new SwordsmanUnit(world, id, x0, y0, 1, 1)));
 
     std::shared_ptr<IUnit>& getUnit = world.getUnitById(id);
 

@@ -11,7 +11,7 @@ TEST(UnitAttackCloseTest, UnitAttackFalse) {
     world.createMap(10, 10);
     
     uint32_t healthInit = 5;
-    std::shared_ptr<IUnit> unit(new HunterUnit(world, 0, 3, 2, healthInit, 1));
+    std::shared_ptr<IUnit> unit(new HunterUnit(world, 0, 3, 2, healthInit, 1, 1, 1));
     world.addUnit(unit);
 
     auto a = dynamic_cast<IAttackableClose*>(unit.get());
@@ -27,9 +27,9 @@ TEST(UnitAttackCloseTest, HunterAttackNearest) {
     world.createMap(10, 10);
     
     uint32_t healthInit = 5;
-    std::shared_ptr<IUnit> attacker(new HunterUnit(world, 0, 2, 2, healthInit, 1));
+    std::shared_ptr<IUnit> attacker(new HunterUnit(world, 0, 2, 2, healthInit, 1, 1, 1));
     world.addUnit(attacker);
-    std::shared_ptr<IUnit> defender(new HunterUnit(world, 1, 3, 2, healthInit, 1));
+    std::shared_ptr<IUnit> defender(new HunterUnit(world, 1, 3, 2, healthInit, 1, 1, 1));
     world.addUnit(defender);
 
     auto a = dynamic_cast<IAttackableClose*>(attacker.get());
@@ -72,9 +72,9 @@ TEST(UnitAttackCloseTest, EventHunterAttackNearest) {
     uint32_t attackerStrength = 1;
     uint32_t targetId = 1;
     uint32_t healthInit = 5;
-    std::shared_ptr<IUnit> attacker(new HunterUnit(world, attackerId, 2, 2, healthInit, attackerStrength));
+    std::shared_ptr<IUnit> attacker(new HunterUnit(world, attackerId, 2, 2, healthInit, attackerStrength, 1, 1));
     world.addUnit(attacker);
-    std::shared_ptr<IUnit> defender(new HunterUnit(world, targetId, 3, 2, healthInit, 1));
+    std::shared_ptr<IUnit> defender(new HunterUnit(world, targetId, 3, 2, healthInit, 1, 1, 1));
     world.addUnit(defender);
 
     auto a = dynamic_cast<IAttackableClose*>(attacker.get());
@@ -122,12 +122,12 @@ TEST(UnitAttackCloseTest, HunterAttackOnlyOne) {
     uint32_t attackerStrength = 1;
     uint32_t healthInit = 5;
     uint32_t healthTotal = 0;
-    std::shared_ptr<IUnit> attacker(new HunterUnit(world, attackerId, 2, 2, healthInit, attackerStrength));
+    std::shared_ptr<IUnit> attacker(new HunterUnit(world, attackerId, 2, 2, healthInit, attackerStrength, 1, 1));
     world.addUnit(attacker);
     for (int dx = -1; dx <= 1; ++dx) {
         if (dx == 0) continue;
 
-        std::shared_ptr<IUnit> target(new HunterUnit(world, dx + 2, dx + 2, 2, healthInit, 1));
+        std::shared_ptr<IUnit> target(new HunterUnit(world, dx + 2, dx + 2, 2, healthInit, 1, 1, 1));
         world.addUnit(target);
         healthTotal += healthInit;
     }
