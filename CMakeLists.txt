@@ -30,12 +30,12 @@ add_executable(unit-tests
     src/Features/AttackCloseUnit.cpp
     src/Features/AttackFarUnit.cpp
     
-    tests/units.cpp
-    tests/moveable.cpp
-    tests/strengthable.cpp
-    tests/agiliable.cpp
-    tests/commands.cpp
-    tests/integration.cpp
+    tests/UnitsBaseTests.cpp
+    tests/MarchableTests.cpp
+    tests/StrengthableTests.cpp
+    tests/AgiliableTests.cpp
+    tests/CommandParserTests.cpp
+    tests/IntegrationTests.cpp
 )
 
 target_include_directories(unit-tests PUBLIC src/)

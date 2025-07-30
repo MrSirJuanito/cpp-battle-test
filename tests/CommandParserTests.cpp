@@ -65,6 +65,12 @@ TEST_F(CommandParserTest, ParseSpawnSwordsmanCommand) {
     EXPECT_EQ(unit->getTypeName(), "Swordsman");
     EXPECT_EQ(unit->getX(), 0);
     EXPECT_EQ(unit->getY(), 0);
+
+    auto h = dynamic_cast<IHealthable*>(unit.get());
+    EXPECT_EQ(h->getHealth(), 5);
+
+    auto s = dynamic_cast<IStrengthable*>(unit.get());
+    EXPECT_EQ(s->getStrength(), 2);
 }
 
 TEST_F(CommandParserTest, ParseSpawnHunterCommand) {

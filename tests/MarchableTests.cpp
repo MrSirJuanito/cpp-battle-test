@@ -6,7 +6,7 @@
 
 using namespace sw;
 
-TEST(UnitMoveTest, UnitMoveBegin) {
+TEST(MarchableTest, UnitMarchBegin) {
     GameWorld world;
     world.createMap(10, 10);
     
@@ -31,7 +31,7 @@ TEST(UnitMoveTest, UnitMoveBegin) {
     EXPECT_EQ(output, expected.str());
 }
 
-TEST(UnitMoveTest, UnitGetAtPosInitial) {
+TEST(MarchableTest, UnitGetAtPosInitial) {
     GameWorld world;
     world.createMap(10, 10);
     
@@ -47,7 +47,7 @@ TEST(UnitMoveTest, UnitGetAtPosInitial) {
     EXPECT_EQ(unit->getY(), y0);
 }
 
-TEST(UnitMoveTest, UnitGetAtPosMoved) {
+TEST(MarchableTest, UnitGetAtPosMoved) {
     GameWorld world;
     world.createMap(10, 10);
     
@@ -70,7 +70,7 @@ TEST(UnitMoveTest, UnitGetAtPosMoved) {
     EXPECT_EQ(target->getId(), id);
 }
 
-TEST(UnitMoveTest, UnitMoveIncorrectDestination) {
+TEST(MarchableTest, UnitMarchIncorrectDestination) {
     GameWorld world;
     world.createMap(10, 10);
     
@@ -89,7 +89,7 @@ TEST(UnitMoveTest, UnitMoveIncorrectDestination) {
     EXPECT_ANY_THROW(m->marchTo(targetX, targetY));
 }
 
-TEST(UnitMoveTest, UnitMoveBeginEnd) {
+TEST(MarchableTest, UnitMoveBeginEnd) {
     GameWorld world;
     world.createMap(10, 10);
     
@@ -116,7 +116,7 @@ TEST(UnitMoveTest, UnitMoveBeginEnd) {
     EXPECT_EQ(output, expected.str());
 }
 
-TEST(UnitMoveTest, UnitMoveInProgress) {
+TEST(MarchableTest, UnitMoveInProgress) {
     GameWorld world;
     world.createMap(10, 10);
     

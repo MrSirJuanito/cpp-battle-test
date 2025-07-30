@@ -6,7 +6,7 @@
 
 using namespace sw;
 
-TEST(UnitSpawnTest, SpawnSwordsman) {
+TEST(UnitsBaseTest, SpawnSwordsman) {
     GameWorld world;
     world.createMap(10, 10);
     uint32_t id = 0;
@@ -16,7 +16,7 @@ TEST(UnitSpawnTest, SpawnSwordsman) {
     EXPECT_TRUE(dynamic_cast<SwordsmanUnit*>(getUnit.get()) != nullptr);
 }
 
-TEST(UnitSpawnTest, SwordsmanMarchable) {
+TEST(UnitsBaseTest, SwordsmanMarchable) {
     GameWorld world;
     world.createMap(10, 10);
     uint32_t id = 0;
@@ -26,7 +26,7 @@ TEST(UnitSpawnTest, SwordsmanMarchable) {
     EXPECT_TRUE(dynamic_cast<IMarchable*>(getUnit.get()) != nullptr);
 }
 
-TEST(UnitSpawnTest, SwordsmanHealthable) {
+TEST(UnitsBaseTest, SwordsmanHealthable) {
     GameWorld world;
     world.createMap(10, 10);
     uint32_t id = 0;
@@ -36,7 +36,7 @@ TEST(UnitSpawnTest, SwordsmanHealthable) {
     EXPECT_TRUE(dynamic_cast<IHealthable*>(getUnit.get()) != nullptr);
 }
 
-TEST(UnitSpawnTest, SwordsmanAttackableClose) {
+TEST(UnitsBaseTest, SwordsmanAttackableClose) {
     GameWorld world;
     world.createMap(10, 10);
     uint32_t id = 0;
@@ -46,7 +46,7 @@ TEST(UnitSpawnTest, SwordsmanAttackableClose) {
     EXPECT_TRUE(dynamic_cast<IStrengthable*>(getUnit.get()) != nullptr);
 }
 
-TEST(UnitSpawnTest, HunterMarchable) {
+TEST(UnitsBaseTest, HunterMarchable) {
     GameWorld world;
     world.createMap(10, 10);
     uint32_t id = 0;
@@ -56,7 +56,7 @@ TEST(UnitSpawnTest, HunterMarchable) {
     EXPECT_TRUE(dynamic_cast<IMarchable*>(getUnit.get()) != nullptr);
 }
 
-TEST(UnitSpawnTest, HunterHealthable) {
+TEST(UnitsBaseTest, HunterHealthable) {
     GameWorld world;
     world.createMap(10, 10);
     uint32_t id = 0;
@@ -66,7 +66,7 @@ TEST(UnitSpawnTest, HunterHealthable) {
     EXPECT_TRUE(dynamic_cast<IHealthable*>(getUnit.get()) != nullptr);
 }
 
-TEST(UnitSpawnTest, HunterAttackableClose) {
+TEST(UnitsBaseTest, HunterAttackableClose) {
     GameWorld world;
     world.createMap(10, 10);
     uint32_t id = 0;
@@ -76,13 +76,13 @@ TEST(UnitSpawnTest, HunterAttackableClose) {
     EXPECT_TRUE(dynamic_cast<IStrengthable*>(getUnit.get()) != nullptr);
 }
 
-TEST(UnitSpawnTest, GetUnitEmptyWorld) {
+TEST(UnitsBaseTest, GetUnitEmptyWorld) {
     GameWorld world;
     world.createMap(10, 10);
     EXPECT_ANY_THROW(world.getUnitById(0));
 }
 
-TEST(UnitSpawnTest, GetUnitIncorrectId) {
+TEST(UnitsBaseTest, GetUnitIncorrectId) {
     GameWorld world;
     world.createMap(10, 10);
     uint32_t id = 0;
@@ -91,7 +91,7 @@ TEST(UnitSpawnTest, GetUnitIncorrectId) {
     EXPECT_ANY_THROW(world.getUnitById(10));
 }
 
-TEST(UnitSpawnTest, EventSpawnSwordsman) {
+TEST(UnitsBaseTest, EventSpawnSwordsman) {
     GameWorld world;
     world.createMap(10, 10);
     uint32_t id = 0;
@@ -107,7 +107,7 @@ TEST(UnitSpawnTest, EventSpawnSwordsman) {
     EXPECT_EQ(output, expected.str());
 }
 
-TEST(UnitSpawnTest, SpawnHunter) {
+TEST(UnitsBaseTest, SpawnHunter) {
     GameWorld world;
     world.createMap(10, 10);
     uint32_t id = 0;
@@ -117,7 +117,7 @@ TEST(UnitSpawnTest, SpawnHunter) {
     EXPECT_TRUE(dynamic_cast<HunterUnit*>(getUnit.get()) != nullptr);
 }
 
-TEST(UnitSpawnTest, EventSpawnHunter) {
+TEST(UnitsBaseTest, EventSpawnHunter) {
     GameWorld world;
     world.createMap(10, 10);
     uint32_t id = 0;
@@ -133,7 +133,7 @@ TEST(UnitSpawnTest, EventSpawnHunter) {
     EXPECT_EQ(output, expected.str());
 }
 
-TEST(UnitSpawnTest, SpawnSamePosition) {
+TEST(UnitsBaseTest, SpawnSamePosition) {
     GameWorld world;
     world.createMap(10, 10);
     uint32_t id = 0;
@@ -142,7 +142,7 @@ TEST(UnitSpawnTest, SpawnSamePosition) {
     EXPECT_ANY_THROW(world.addUnit(std::shared_ptr<IUnit>(new SwordsmanUnit(world, id, 0, 0, 1, 1))));
 }
 
-TEST(UnitSpawnTest, SpawnSameId) {
+TEST(UnitsBaseTest, SpawnSameId) {
     GameWorld world;
     world.createMap(10, 10);
     uint32_t id = 0;
@@ -151,7 +151,7 @@ TEST(UnitSpawnTest, SpawnSameId) {
     EXPECT_ANY_THROW(world.addUnit(std::shared_ptr<IUnit>(new SwordsmanUnit(world, id, 0, 1, 1, 1))));
 }
 
-TEST(UnitSpawnTest, MultipleUnitsCheckIds) {
+TEST(UnitsBaseTest, MultipleUnitsCheckIds) {
     GameWorld world;
     world.createMap(10, 10);
     

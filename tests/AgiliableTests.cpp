@@ -6,7 +6,7 @@
 
 using namespace sw;
 
-TEST(UnitAttackFarTest, UnitAttackFalse) {
+TEST(AgiliableTest, UnitAttackFalse) {
     GameWorld world;
     world.createMap(10, 10);
     
@@ -22,7 +22,7 @@ TEST(UnitAttackFarTest, UnitAttackFalse) {
     EXPECT_EQ(h->getHealth(), healthInit);
 }
 
-TEST(UnitAttackFarTest, HunterAttackInRange) {
+TEST(AgiliableTest, HunterAttackInRange) {
     GameWorld world;
     world.createMap(10, 10);
     
@@ -44,7 +44,7 @@ TEST(UnitAttackFarTest, HunterAttackInRange) {
     EXPECT_EQ(healthDefender->getHealth(), healthInit - 1);
 }
 
-TEST(UnitAttackFarTest, EventHunterAttackInRange) {
+TEST(AgiliableTest, EventHunterAttackInRange) {
     GameWorld world;
     world.createMap(10, 10);
     
@@ -72,7 +72,7 @@ TEST(UnitAttackFarTest, EventHunterAttackInRange) {
     EXPECT_EQ(output, expected.str());
 }
 
-TEST(UnitAttackFarTest, HunterAttackOutOfRange) {
+TEST(AgiliableTest, HunterAttackOutOfRange) {
     GameWorld world;
     world.createMap(15, 15);
     
@@ -108,7 +108,7 @@ TEST(UnitAttackFarTest, HunterAttackOutOfRange) {
     EXPECT_EQ(healthTotalActual, healthTotal);
 }
 
-TEST(UnitAttackFarTest, HunterAttackOnlyOne) {
+TEST(AgiliableTest, HunterAttackOnlyOne) {
     GameWorld world;
     world.createMap(15, 15);
     
@@ -148,7 +148,7 @@ TEST(UnitAttackFarTest, HunterAttackOnlyOne) {
     EXPECT_EQ(healthTotalActual, healthTotal-attackerAgility);
 }
 
-TEST(UnitAttackFarTest, EventHunterDie) {
+TEST(AgiliableTest, EventHunterDie) {
     GameWorld world;
     world.createMap(10, 10);
     

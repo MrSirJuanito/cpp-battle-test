@@ -6,7 +6,7 @@
 
 using namespace sw;
 
-TEST(UnitAttackCloseTest, UnitAttackFalse) {
+TEST(StrengthableTest, UnitAttackFalse) {
     GameWorld world;
     world.createMap(10, 10);
     
@@ -22,7 +22,7 @@ TEST(UnitAttackCloseTest, UnitAttackFalse) {
     EXPECT_EQ(h->getHealth(), healthInit);
 }
 
-TEST(UnitAttackCloseTest, HunterAttackNearest) {
+TEST(StrengthableTest, HunterAttackNearest) {
     GameWorld world;
     world.createMap(10, 10);
     
@@ -43,7 +43,7 @@ TEST(UnitAttackCloseTest, HunterAttackNearest) {
     EXPECT_EQ(healthDefender->getHealth(), healthInit - 1);
 }
 
-TEST(UnitAttackCloseTest, SwordsmanAttackNearest) {
+TEST(StrengthableTest, SwordsmanAttackNearest) {
     GameWorld world;
     world.createMap(10, 10);
     
@@ -64,7 +64,7 @@ TEST(UnitAttackCloseTest, SwordsmanAttackNearest) {
     EXPECT_EQ(healthDefender->getHealth(), healthInit - 1);
 }
 
-TEST(UnitAttackCloseTest, EventHunterAttackNearest) {
+TEST(StrengthableTest, EventHunterAttackNearest) {
     GameWorld world;
     world.createMap(10, 10);
     
@@ -89,7 +89,7 @@ TEST(UnitAttackCloseTest, EventHunterAttackNearest) {
     EXPECT_EQ(output, expected.str());
 }
 
-TEST(UnitAttackCloseTest, EventSwordsmanAttackNearest) {
+TEST(StrengthableTest, EventSwordsmanAttackNearest) {
     GameWorld world;
     world.createMap(10, 10);
     
@@ -114,7 +114,7 @@ TEST(UnitAttackCloseTest, EventSwordsmanAttackNearest) {
     EXPECT_EQ(output, expected.str());
 }
 
-TEST(UnitAttackCloseTest, HunterAttackOnlyOne) {
+TEST(StrengthableTest, HunterAttackOnlyOne) {
     GameWorld world;
     world.createMap(10, 10);
     
@@ -148,7 +148,7 @@ TEST(UnitAttackCloseTest, HunterAttackOnlyOne) {
     EXPECT_EQ(healthTotalActual, healthTotal-attackerStrength);
 }
 
-TEST(UnitAttackCloseTest, SwordsmanAttackOnlyOne) {
+TEST(StrengthableTest, SwordsmanAttackOnlyOne) {
     GameWorld world;
     world.createMap(10, 10);
     
@@ -182,7 +182,7 @@ TEST(UnitAttackCloseTest, SwordsmanAttackOnlyOne) {
     EXPECT_EQ(healthTotalActual, healthTotal-attackerStrength);
 }
 
-TEST(UnitAttackCloseTest, EventSwordsmanDie) {
+TEST(StrengthableTest, EventSwordsmanDie) {
     GameWorld world;
     world.createMap(10, 10);
     
