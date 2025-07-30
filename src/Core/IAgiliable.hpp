@@ -4,7 +4,7 @@
 #include <Core/IUnit.hpp>
 
 namespace sw {
-    struct IAttackableFar : public virtual IUnit {
+    struct IAgiliable : public virtual IUnit {
         virtual bool doAttackFar() = 0;
         virtual uint32_t getAgility() const = 0;
         virtual uint32_t getRange() const = 0;

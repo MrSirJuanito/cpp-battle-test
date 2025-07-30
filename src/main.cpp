@@ -54,11 +54,10 @@ int main(int argc, char** argv)
         });
 
 	parser.parse(file);
-
+	
 	std::cout << "\n\nEvents:\n";
 
 	while (world.nextTick()) {
-		std::cout << " " << std::endl;
 	}
 
 	/*

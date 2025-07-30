@@ -7,8 +7,8 @@
 #include <Core/IGameWorld.hpp>
 #include <Core/IUnit.hpp>
 #include <Core/IHealthable.hpp>
-#include <Core/IAttackableClose.hpp>
-#include <Core/IAttackableFar.hpp>
+#include <Core/IStrengthable.hpp>
+#include <Core/IAgiliable.hpp>
 #include <Core/IMarchable.hpp>
 #include <IO/System/EventLog.hpp>
 #include <IO/Events/MapCreated.hpp>
@@ -79,6 +79,7 @@ namespace sw {
 
         bool nextTick() {
 			++tick;
+			// Any action performed by any unit
 			bool action = false;
 			for (auto& id : unitIds) {
 				auto& v = getUnitById(id);
@@ -88,19 +89,20 @@ namespace sw {
 				}
 
 				bool attackedClose = false;
-				if (auto a = dynamic_cast<IAttackableClose*>(v.get())) {
+				if (auto a = dynamic_cast<IStrengthable*>(v.get())) {
 					attackedClose = a->doAttackClose();
 				}
-				// If a unit is not attackable or the attack didn't succeed - march
+				// If a unit is not "strengthable" or the close attack didn't succeed - attack far
                 if (attackedClose) {
 					action = true;
 					continue;
 				}
 
 				bool attackedFar = false;
-				if (auto a = dynamic_cast<IAttackableFar*>(v.get())) {
+				if (auto a = dynamic_cast<IAgiliable*>(v.get())) {
 					attackedFar = a->doAttackFar();
 				}
+				// If a unit is not "agiliable" or the close attack didn't succeed - attack far
 				if (attackedFar) {
 					action = true;
 					continue;

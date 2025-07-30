@@ -26,11 +26,14 @@ enable_testing()
 
 add_executable(unit-tests
     src/IO/System/CommandParser.cpp
+    src/Features/MarchUnit.cpp
+    src/Features/AttackCloseUnit.cpp
+    src/Features/AttackFarUnit.cpp
     
     tests/units.cpp
     tests/moveable.cpp
-    tests/attackableclose.cpp
-    tests/attackablefar.cpp
+    tests/strengthable.cpp
+    tests/agiliable.cpp
     tests/commands.cpp
     tests/integration.cpp
 )

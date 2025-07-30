@@ -14,7 +14,7 @@ TEST(UnitAttackCloseTest, UnitAttackFalse) {
     std::shared_ptr<IUnit> unit(new HunterUnit(world, 0, 3, 2, healthInit, 1, 1, 1));
     world.addUnit(unit);
 
-    auto a = dynamic_cast<IAttackableClose*>(unit.get());
+    auto a = dynamic_cast<IStrengthable*>(unit.get());
     bool attacked = a->doAttackClose();
     EXPECT_FALSE(attacked);
     
@@ -32,7 +32,7 @@ TEST(UnitAttackCloseTest, HunterAttackNearest) {
     std::shared_ptr<IUnit> defender(new HunterUnit(world, 1, 3, 2, healthInit, 1, 1, 1));
     world.addUnit(defender);
 
-    auto a = dynamic_cast<IAttackableClose*>(attacker.get());
+    auto a = dynamic_cast<IStrengthable*>(attacker.get());
     bool attacked = a->doAttackClose();
     EXPECT_TRUE(attacked);
 
@@ -53,7 +53,7 @@ TEST(UnitAttackCloseTest, SwordsmanAttackNearest) {
     std::shared_ptr<IUnit> defender(new SwordsmanUnit(world, 1, 3, 2, healthInit, 1));
     world.addUnit(defender);
 
-    auto a = dynamic_cast<IAttackableClose*>(attacker.get());
+    auto a = dynamic_cast<IStrengthable*>(attacker.get());
     bool attacked = a->doAttackClose();
     EXPECT_TRUE(attacked);
 
@@ -77,7 +77,7 @@ TEST(UnitAttackCloseTest, EventHunterAttackNearest) {
     std::shared_ptr<IUnit> defender(new HunterUnit(world, targetId, 3, 2, healthInit, 1, 1, 1));
     world.addUnit(defender);
 
-    auto a = dynamic_cast<IAttackableClose*>(attacker.get());
+    auto a = dynamic_cast<IStrengthable*>(attacker.get());
     testing::internal::CaptureStdout();
     a->doAttackClose();
     std::string output = testing::internal::GetCapturedStdout();
@@ -102,7 +102,7 @@ TEST(UnitAttackCloseTest, EventSwordsmanAttackNearest) {
     std::shared_ptr<IUnit> defender(new SwordsmanUnit(world, targetId, 3, 2, healthInit, 1));
     world.addUnit(defender);
 
-    auto a = dynamic_cast<IAttackableClose*>(attacker.get());
+    auto a = dynamic_cast<IStrengthable*>(attacker.get());
     testing::internal::CaptureStdout();
     a->doAttackClose();
     std::string output = testing::internal::GetCapturedStdout();
@@ -132,7 +132,7 @@ TEST(UnitAttackCloseTest, HunterAttackOnlyOne) {
         healthTotal += healthInit;
     }
 
-    auto a = dynamic_cast<IAttackableClose*>(attacker.get());
+    auto a = dynamic_cast<IStrengthable*>(attacker.get());
     a->doAttackClose();
 
     uint32_t healthTotalActual = 0;
@@ -166,7 +166,7 @@ TEST(UnitAttackCloseTest, SwordsmanAttackOnlyOne) {
         healthTotal += healthInit;
     }
 
-    auto a = dynamic_cast<IAttackableClose*>(attacker.get());
+    auto a = dynamic_cast<IStrengthable*>(attacker.get());
     a->doAttackClose();
 
     uint32_t healthTotalActual = 0;
@@ -194,7 +194,7 @@ TEST(UnitAttackCloseTest, EventSwordsmanDie) {
     world.addUnit(std::shared_ptr<IUnit>(new SwordsmanUnit(world, defenderId, 1, 1, 1, 1)));
 
     testing::internal::CaptureStdout();
-    auto a = dynamic_cast<IAttackableClose*>(attacker.get());
+    auto a = dynamic_cast<IStrengthable*>(attacker.get());
     a->doAttackClose();
     std::string output = testing::internal::GetCapturedStdout();
 

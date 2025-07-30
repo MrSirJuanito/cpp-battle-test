@@ -84,10 +84,10 @@ TEST_F(CommandParserTest, ParseSpawnHunterCommand) {
     auto h = dynamic_cast<IHealthable*>(unit.get());
     EXPECT_EQ(h->getHealth(), 10);
 
-    auto s = dynamic_cast<IAttackableClose*>(unit.get());
+    auto s = dynamic_cast<IStrengthable*>(unit.get());
     EXPECT_EQ(s->getStrength(), 1);
 
-    auto a = dynamic_cast<IAttackableFar*>(unit.get());
+    auto a = dynamic_cast<IAgiliable*>(unit.get());
     EXPECT_EQ(a->getAgility(), 5);
     EXPECT_EQ(a->getRange(), 4);
 }

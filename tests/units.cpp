@@ -43,7 +43,7 @@ TEST(UnitSpawnTest, SwordsmanAttackableClose) {
     world.addUnit(std::shared_ptr<IUnit>(new SwordsmanUnit(world, 0, 1, 2, 1, 1)));
 
     std::shared_ptr<IUnit>& getUnit = world.getUnitById(id);
-    EXPECT_TRUE(dynamic_cast<IAttackableClose*>(getUnit.get()) != nullptr);
+    EXPECT_TRUE(dynamic_cast<IStrengthable*>(getUnit.get()) != nullptr);
 }
 
 TEST(UnitSpawnTest, HunterMarchable) {
@@ -73,7 +73,7 @@ TEST(UnitSpawnTest, HunterAttackableClose) {
     world.addUnit(std::shared_ptr<IUnit>(new HunterUnit(world, 0, 1, 2, 1, 1, 1, 1)));
 
     std::shared_ptr<IUnit>& getUnit = world.getUnitById(id);
-    EXPECT_TRUE(dynamic_cast<IAttackableClose*>(getUnit.get()) != nullptr);
+    EXPECT_TRUE(dynamic_cast<IStrengthable*>(getUnit.get()) != nullptr);
 }
 
 TEST(UnitSpawnTest, GetUnitEmptyWorld) {
