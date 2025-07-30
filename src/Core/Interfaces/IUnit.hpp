@@ -2,7 +2,7 @@
 
 #include <cstdint>
 #include <string>
-#include <Core/IGameWorld.hpp>
+#include <Core/Interfaces/IGameWorld.hpp>
 
 namespace sw {
     struct IUnit {

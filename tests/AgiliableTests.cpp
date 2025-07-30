@@ -1,8 +1,8 @@
 #include <gtest/gtest.h>
 
 #include <Core/GameWorld.hpp>
-#include <Features/HunterUnit.hpp>
-#include <Features/SwordsmanUnit.hpp>
+#include <Features/Units/HunterUnit.hpp>
+#include <Features/Units/SwordsmanUnit.hpp>
 
 using namespace sw;
 

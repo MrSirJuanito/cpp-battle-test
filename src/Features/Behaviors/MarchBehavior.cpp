@@ -1,10 +1,10 @@
-#include "MarchUnit.hpp"
+#include "MarchBehavior.hpp"
 #include <IO/Events/MarchStarted.hpp>
 #include <IO/Events/UnitMoved.hpp>
 #include <IO/Events/MarchEnded.hpp>
 
 namespace sw {
-    void MarchUnit::marchTo(uint32_t _targetX, uint32_t _targetY) {
+    void MarchBehavior::marchTo(uint32_t _targetX, uint32_t _targetY) {
         if (_targetX >= owner.getWorld().getWidth() || _targetY >= owner.getWorld().getHeight())
             throw new std::runtime_error("March destination is beyond the map!");
 
@@ -14,7 +14,7 @@ namespace sw {
             io::MarchStarted{owner.getId(), owner.getX(), owner.getY(), targetX, targetY});
     }
 
-    bool MarchUnit::doMarch() {
+    bool MarchBehavior::doMarch() {
         if (targetX == owner.getX() && targetY == owner.getY()) {
             return false;
         }

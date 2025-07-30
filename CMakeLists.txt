@@ -26,9 +26,9 @@ enable_testing()
 
 add_executable(unit-tests
     src/IO/System/CommandParser.cpp
-    src/Features/MarchUnit.cpp
-    src/Features/AttackCloseUnit.cpp
-    src/Features/AttackFarUnit.cpp
+    src/Features/Behaviors/MarchBehavior.cpp
+    src/Features/Behaviors/AttackCloseBehavior.cpp
+    src/Features/Behaviors/AttackFarBehavior.cpp
     
     tests/UnitsBaseTests.cpp
     tests/MarchableTests.cpp

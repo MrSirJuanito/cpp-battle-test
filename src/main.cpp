@@ -14,8 +14,8 @@
 #include <IO/System/PrintDebug.hpp>
 #include <fstream>
 #include <iostream>
-#include <Features/SwordsmanUnit.hpp>
-#include <Features/HunterUnit.hpp>
+#include <Features/Units/SwordsmanUnit.hpp>
+#include <Features/Units/HunterUnit.hpp>
 #include <Core/GameWorld.hpp>
 
 int main(int argc, char** argv)

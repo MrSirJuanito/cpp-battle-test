@@ -2,8 +2,8 @@
 
 #include <memory>
 #include <Core/GameWorld.hpp>
-#include <Features/SwordsmanUnit.hpp>
-#include <Features/HunterUnit.hpp>
+#include <Features/Units/SwordsmanUnit.hpp>
+#include <Features/Units/HunterUnit.hpp>
 
 using namespace sw;
 

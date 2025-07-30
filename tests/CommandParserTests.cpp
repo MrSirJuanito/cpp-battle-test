@@ -7,9 +7,9 @@
 #include <IO/Commands/SpawnHunter.hpp>
 #include <IO/Commands/SpawnSwordsman.hpp>
 #include <Core/GameWorld.hpp>
-#include <Features/SwordsmanUnit.hpp>
-#include <Features/HunterUnit.hpp>
-#include <Core/IMarchable.hpp>
+#include <Features/Units/SwordsmanUnit.hpp>
+#include <Features/Units/HunterUnit.hpp>
+#include <Core/Interfaces/IMarchable.hpp>
 
 using namespace sw;
 

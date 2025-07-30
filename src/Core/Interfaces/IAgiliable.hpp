@@ -1,7 +1,7 @@
 #pragma once
 
 #include <cstdint>
-#include <Core/IUnit.hpp>
+#include <Core/Interfaces/IUnit.hpp>
 
 namespace sw {
     struct IAgiliable : public virtual IUnit {

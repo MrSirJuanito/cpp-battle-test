@@ -1,23 +1,29 @@
-#include "AttackCloseUnit.hpp"
+#include "AttackFarBehavior.hpp"
 #include <vector>
 #include <memory>
-#include <Core/IHealthable.hpp>
+#include <Core/Interfaces/IHealthable.hpp>
 #include <IO/Events/UnitAttacked.hpp>
+#include <Core/Common/Utils.hpp>
 
 namespace sw {
-    bool AttackCloseUnit::doAttackClose() {
+    bool AttackFarBehavior::doAttackFar() {
         std::vector<std::shared_ptr<IUnit>> unitsAttack;
 
-        uint32_t minX = (owner.getX() > 1) ? owner.getX() - 1 : 0;
-        uint32_t minY = (owner.getY() > 1) ? owner.getY() - 1 : 0;
+        uint32_t minX = (owner.getX() > range) ? owner.getX() - range : 0;
+        uint32_t minY = (owner.getY() > range) ? owner.getY() - range : 0;
 
-        for (uint32_t x = minX; x <= owner.getX() + 1; ++x) {
-            for (uint32_t y = minY; y <= owner.getY() + 1; ++y) {
+        for (uint32_t x = minX; x <= owner.getX() + range; ++x) {
+            for (uint32_t y = minY; y <= owner.getY() + range; ++y) {
                 // Skip checking for target at your own position
                 if (x == owner.getX() && y == owner.getY())
                     continue;
                 
                 if (owner.getWorld().existUnitAtPos(x, y)) {
+                    // Check if the unit is in an attack range
+                    uint32_t dist = Utils::distanceTo(owner, x, y);
+                    if (dist > range || dist == 1)
+                        continue;
+                    
                     std::shared_ptr<IUnit>& unit = owner.getWorld().getUnitAtPos(x, y);
                     // Attach only those units that are Healthable (have HP)
                     if (auto h = dynamic_cast<IHealthable*>(unit.get())) {
@@ -38,11 +44,11 @@ namespace sw {
             uint32_t attackId = rand() % unitsAttack.size();
             auto h = dynamic_cast<IHealthable*>(unitsAttack[attackId].get());
 
-            uint32_t newHealth = (h->getHealth() >= strength ) ? h->getHealth() - strength : 0;
-
-            owner.getWorld().getEventLog().log(owner.getWorld().getTick(), 
-                io::UnitAttacked{owner.getId(), unitsAttack[attackId]->getId(), strength, newHealth});
+            uint32_t newHealth = (h->getHealth() >= agility) ? h->getHealth() - agility : 0;
             
+            owner.getWorld().getEventLog().log(owner.getWorld().getTick(), 
+                io::UnitAttacked{owner.getId(), unitsAttack[attackId]->getId(), agility, newHealth});
+
             h->setHealth(newHealth);
 
             unitsAttack.erase(unitsAttack.begin() + attackId);

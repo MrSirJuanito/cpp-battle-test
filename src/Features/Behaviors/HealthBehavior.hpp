@@ -1,16 +1,16 @@
 #pragma once
 
-#include <Core/IHealthable.hpp>
+#include <Core/Interfaces/IHealthable.hpp>
 #include <IO/Events/UnitDied.hpp>
 
 namespace sw {
-    class HealthUnit : public virtual IHealthable {
+    class HealthBehavior : public virtual IHealthable {
         private:
             IUnit& owner;
             uint32_t health;
 
         public:
-            HealthUnit(IUnit& _owner, uint32_t _health) :
+            HealthBehavior(IUnit& _owner, uint32_t _health) :
                 owner{_owner},
                 health{_health}
             {}

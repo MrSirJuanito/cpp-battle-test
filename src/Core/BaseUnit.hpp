@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Core/IUnit.hpp>
+#include <Core/Interfaces/IUnit.hpp>
 
 namespace sw {
 	class BaseUnit : public virtual IUnit {

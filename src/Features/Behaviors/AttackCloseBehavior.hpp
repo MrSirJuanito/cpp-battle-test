@@ -1,16 +1,16 @@
 #pragma once
 
-#include <Core/IStrengthable.hpp>
+#include <Core/Interfaces/IStrengthable.hpp>
 
 namespace sw {
-    class AttackCloseUnit : public virtual IStrengthable {
+    class AttackCloseBehavior : public virtual IStrengthable {
         private:
             IUnit& owner;
             uint32_t strength;
             uint32_t maxEnemies;
 
         public:
-            AttackCloseUnit(IUnit& _owner, uint32_t _strength, uint32_t _maxEnemies) :
+            AttackCloseBehavior(IUnit& _owner, uint32_t _strength, uint32_t _maxEnemies) :
                 owner{_owner},
                 strength{_strength},
                 maxEnemies{_maxEnemies}
