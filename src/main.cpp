@@ -54,10 +54,15 @@ int main(int argc, char** argv)
         });
 
 	parser.parse(file);
-	
+
 	std::cout << "\n\nEvents:\n";
 
+	uint32_t ticks = 1;
+	uint32_t maxTicks = 10000;
 	while (world.nextTick()) {
+		if (++ticks > maxTicks) {
+			std::cout << "Simulation is on for " << maxTicks << ". It probably couldn't converge.";
+		}
 	}
 
 	/*
