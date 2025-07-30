@@ -31,6 +31,7 @@ namespace sw {
 	public:
 		uint32_t getWidth() const override { return width; };
         uint32_t getHeight() const override { return height; };
+
 		uint32_t getNextId() const override { return units.size(); }
 		EventLog& getEventLog() override { return eventLog; }
 		uint64_t getTick() const override { return tick; }
@@ -57,6 +58,9 @@ namespace sw {
 		}
 	
 		bool existUnitAtPos(uint32_t _x, uint32_t _y) override {
+			if (_x > width || _y > height)
+				return false;
+
 			for (auto& [k, v] : units) {
                 if (v->getX() == _x && v->getY() == _y)
                     return true;

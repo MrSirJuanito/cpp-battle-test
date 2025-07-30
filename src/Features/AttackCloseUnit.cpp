@@ -8,21 +8,17 @@ namespace sw {
     bool AttackCloseUnit::doAttackClose() {
         std::vector<std::shared_ptr<IUnit>> unitsAttack;
 
-        for (int dx = -1; dx <= 1; ++dx) {
-            for (int dy = -1; dy <= 1; ++dy) {
+        uint32_t minX = (owner.getX() > 1) ? owner.getX() - 1 : 0;
+        uint32_t minY = (owner.getY() > 1) ? owner.getY() - 1 : 0;
+
+        for (uint32_t x = minX; x <= owner.getX() + 1; ++x) {
+            for (uint32_t y = minY; y <= owner.getY() + 1; ++y) {
                 // Skip checking for target at your own position
-                if (dx == 0 && dy == 0)
+                if (x == owner.getX() && y == owner.getY())
                     continue;
                 
-                // Check the world dimensions
-                if (static_cast<int>(owner.getX()) + dx < 0 ||
-                    static_cast<int>(owner.getX()) + dx >= owner.getWorld().getWidth() ||
-                    static_cast<int>(owner.getY()) + dy < 0 ||
-                    static_cast<int>(owner.getY()) + dy >= owner.getWorld().getHeight())
-                    continue;
-                 
-                if (owner.getWorld().existUnitAtPos(owner.getX() + dx, owner.getY() + dy)) {
-                    std::shared_ptr<IUnit>& unit = owner.getWorld().getUnitAtPos(owner.getX() + dx, owner.getY() + dy);
+                if (owner.getWorld().existUnitAtPos(x, y)) {
+                    std::shared_ptr<IUnit>& unit = owner.getWorld().getUnitAtPos(x, y);
                     // Attach only those units that are Healthable (have HP)
                     if (auto h = dynamic_cast<IHealthable*>(unit.get())) {
                         if (h->getHealth() > 0) {
@@ -42,12 +38,12 @@ namespace sw {
             uint32_t attackId = rand() % unitsAttack.size();
             auto h = dynamic_cast<IHealthable*>(unitsAttack[attackId].get());
 
-            uint32_t healthNew = (h->getHealth() >= strength ) ? h->getHealth() - strength : 0;
+            uint32_t newHealth = (h->getHealth() >= strength ) ? h->getHealth() - strength : 0;
 
             owner.getWorld().getEventLog().log(owner.getWorld().getTick(), 
-                io::UnitAttacked{owner.getId(), unitsAttack[attackId]->getId(), strength, healthNew});
+                io::UnitAttacked{owner.getId(), unitsAttack[attackId]->getId(), strength, newHealth});
             
-            h->setHealth(healthNew);
+            h->setHealth(newHealth);
 
             unitsAttack.erase(unitsAttack.begin() + attackId);
             attackedSomebody = true;
